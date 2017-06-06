@@ -1,0 +1,28 @@
+{
+    "name": "ordermind/logical-authorization-doctrine-mongo-bundle",
+    "version": "0.2.0",
+    "license": "MIT",
+    "description": "Adds LogicalAuthorization support to Doctrine MongoDB documents",
+    "keywords": ["doctrine", "odm", "mongodb", "logical-authorization"],
+    "authors": [
+        {
+            "name": "Kristofer Tengström",
+            "email": "info@kristofer-tengstrom.se"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ordermind\\LogicalAuthorizationDoctrineMongoBundle\\": ""
+        }
+    },
+    "require": {
+        "ordermind/logical-authorization-bundle": "dev-master",
+        "doctrine/mongodb-odm-bundle": "^3.0",
+        "doctrine/mongodb-odm": "^1.0",
+        "doctrine/mongodb": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=4.8",
+        "escapestudios/symfony2-coding-standard": "~2.0"
+    }
+}

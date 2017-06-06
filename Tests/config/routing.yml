@@ -1,0 +1,4 @@
+test_routes:
+    resource: "@OrdermindLogicalAuthorizationDoctrineMongoBundle/Tests/Fixtures/Controller/"
+    type:     annotation
+    prefix:   /test

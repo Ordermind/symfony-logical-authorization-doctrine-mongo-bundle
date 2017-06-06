@@ -1,0 +1,36 @@
+services:
+  ordermind_logical_authorization_doctrine_mongo.service.repository_decorator_factory:
+      class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\RepositoryDecoratorFactory
+      calls:
+          - [setManagerRegistry, ['@doctrine_mongodb']]
+          - [setDocumentDecoratorFactory, ['@ordermind_logical_authorization_doctrine_mongo.service.document_decorator_factory']]
+          - [setDispatcher, ['@event_dispatcher']]
+          - [setHelper, ['@ordermind_logical_authorization.service.helper']]
+
+  ordermind_logical_authorization_doctrine_mongo.service.document_decorator_factory:
+      class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactory
+      arguments: ['@ordermind_logical_authorization.service.logical_authorization_model']
+
+  ordermind_logical_authorization_doctrine_mongo.event_listener.add_permissions:
+    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\AddPermissions
+    arguments:
+      - '@doctrine_mongodb'
+      - '%doctrine_mongodb.odm.metadata.annotation.class%'
+      - '%doctrine_mongodb.odm.metadata.xml.class%'
+      - '%doctrine_mongodb.odm.metadata.yml.class%'
+    tags:
+      - {name: kernel.event_listener, event: logical_authorization.add_permissions, method: onAddPermissions}
+
+  ordermind_logical_authorization_doctrine_mongo.event_subscriber.repository_decorator:
+    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\RepositoryDecoratorSubscriber
+    arguments: ['@ordermind_logical_authorization.service.logical_authorization_model', '%ordermind_logical_authorization_doctrine_mongo.config%']
+    tags:
+      - {name: kernel.event_subscriber}
+
+  ordermind_logical_authorization_doctrine_mongo.event_subscriber.document_decorator:
+    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\DocumentDecoratorSubscriber
+    arguments: ['@ordermind_logical_authorization.service.logical_authorization_model']
+    tags:
+      - {name: kernel.event_subscriber}
+
+

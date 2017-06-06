@@ -1,0 +1,16 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    encoders:
+        Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\User\TestUser: plaintext
+
+    providers:
+        user_provider:
+            mongodb:
+                class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\User\TestUser
+                property: username
+
+    firewalls:
+        default:
+            anonymous: ~
+            http_basic: ~
