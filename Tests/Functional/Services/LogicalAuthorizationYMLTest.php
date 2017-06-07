@@ -2,7 +2,7 @@
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Functional\Services;
 
-class LogicalAuthorizationODMYMLTest extends LogicalAuthorizationBase
+class LogicalAuthorizationYMLTest extends LogicalAuthorizationBase
 {
   /**
    * This method is run before each public test method

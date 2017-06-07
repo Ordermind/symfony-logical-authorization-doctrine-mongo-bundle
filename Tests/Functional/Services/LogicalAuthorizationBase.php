@@ -60,6 +60,10 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
    * It is important to reset all non-static properties to minimize memory leaks.
    */
   protected function tearDown() {
+    if(!is_null($this->testDocumentRepositoryDecorator)) {
+      $this->testDocumentRepositoryDecorator->getDocumentManager()->getConnection()->close();
+      $this->testDocumentRepositoryDecorator = null;
+    }
     if(!is_null($this->testDocumentRoleAuthorRepositoryDecorator)) {
       $this->testDocumentRoleAuthorRepositoryDecorator->getDocumentManager()->getConnection()->close();
       $this->testDocumentRoleAuthorRepositoryDecorator = null;
