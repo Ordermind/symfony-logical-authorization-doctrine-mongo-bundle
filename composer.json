@@ -2,7 +2,7 @@
     "name": "ordermind/logical-authorization-doctrine-mongo-bundle",
     "version": "0.2.0",
     "license": "MIT",
-    "description": "Adds LogicalAuthorization support to Doctrine MongoDB documents",
+    "description": "Doctrine MongoDB integration for LogicalAuthorization bundle",
     "keywords": ["doctrine", "odm", "mongodb", "logical-authorization"],
     "authors": [
         {
