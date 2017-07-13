@@ -216,7 +216,7 @@ class DefaultController extends Controller {
 
   /**
    * @Route("/load-test-document/{id}", name="load_test_document", options={
-   * "logauth_permissions": {
+   * "logauth": {
    *   "role": "ROLE_ADMIN"
    * }})
    * @Method({"GET"})

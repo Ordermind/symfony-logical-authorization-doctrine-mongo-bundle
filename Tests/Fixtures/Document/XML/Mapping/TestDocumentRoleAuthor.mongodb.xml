@@ -5,7 +5,7 @@
                 http://doctrine-project.org/schemas/odm/doctrine-mongo-mapping.xsd">
 
   <document name="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentRoleAuthor" repository-class="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\XML\TestDocumentRoleAuthorRepository" collection="testdocuments_roleauthor_xml">
-    <logauth_permissions>
+    <logauth>
       <create>
         <role>ROLE_ADMIN</role>
       </create>
@@ -27,12 +27,12 @@
           <flag>is_author</flag>
         </OR>
       </delete>
-    </logauth_permissions>
+    </logauth>
 
     <field name="id" id="true" />
 
     <field name="field1" type="string">
-      <logauth_permissions>
+      <logauth>
         <get>
           <role>ROLE_ADMIN</role>
           <flag>is_author</flag>
@@ -41,7 +41,7 @@
           <role>ROLE_ADMIN</role>
           <flag>is_author</flag>
         </set>
-      </logauth_permissions>
+      </logauth>
     </field>
 
     <field name="field2" type="string" />

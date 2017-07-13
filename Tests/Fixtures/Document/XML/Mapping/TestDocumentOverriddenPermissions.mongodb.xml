@@ -5,7 +5,7 @@
     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
   <document name="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentOverriddenPermissions" repository-class="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\XML\TestDocumentOverriddenPermissionsRepository" collection="testdocuments_overridden_permissions_xml">
-    <logauth_permissions>
+    <logauth>
       <create>
         <value>FALSE</value>
       </create>
@@ -18,19 +18,19 @@
       <delete>
         <value>FALSE</value>
       </delete>
-    </logauth_permissions>
+    </logauth>
 
     <field name="id" id="true" />
 
     <field name="field1" type="string">
-      <logauth_permissions>
+      <logauth>
         <get>
           <value>FALSE</value>
         </get>
         <set>
           <value>FALSE</value>
         </set>
-      </logauth_permissions>
+      </logauth>
     </field>
 
     <field name="field2" type="string" />

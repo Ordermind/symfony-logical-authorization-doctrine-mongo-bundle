@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\YML\TestDocumentNoBypassRepository
   collection: testdocuments_nobypass_yml
 
-  logauth_permissions:
+  logauth:
     create:
       no_bypass: true
       value: false
@@ -22,7 +22,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
       id: true
     field1:
       type: string
-      logauth_permissions:
+      logauth:
         get:
           no_bypass: true
           value: false
