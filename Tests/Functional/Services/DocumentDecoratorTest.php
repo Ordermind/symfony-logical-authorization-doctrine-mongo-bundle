@@ -139,7 +139,7 @@ class DoctrineODMDocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testGetAvailableActions() {
-    $laModel = $this->container->get('ordermind_logical_authorization.service.logical_authorization_model');
+    $laModel = $this->container->get('logauth.service.logauth_model');
     $repositoryDecorator = $this->container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $document = $documentDecorator->getDocument();

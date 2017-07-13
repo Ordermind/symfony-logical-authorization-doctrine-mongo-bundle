@@ -70,7 +70,7 @@ doctrine_mongodb:
                     alias: TestDocumentsYML
 
 # LogicalAuthorization Configuration
-ordermind_logical_authorization:
+logauth:
     permissions:
         models:
             Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentOverriddenPermissions:
@@ -102,5 +102,5 @@ ordermind_logical_authorization:
                         set: true
 
 # LogicalAuthorization Mongo Configuration
-ordermind_logical_authorization_doctrine_mongo:
+logauth_doctrine_mongo:
     check_lazy_loaded_documents: true

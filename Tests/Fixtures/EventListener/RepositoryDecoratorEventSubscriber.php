@@ -14,19 +14,19 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Te
 class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface {
   public static function getSubscribedEvents() {
     return array(
-      'ordermind_logical_authorization_doctrine_mongo.event.repository_decorator.unknown_result' => array(
+      'logauth_doctrine_mongo.event.repository_decorator.unknown_result' => array(
         array('onUnknownResult'),
       ),
-      'ordermind_logical_authorization_doctrine_mongo.event.repository_decorator.single_document_result' => array(
+      'logauth_doctrine_mongo.event.repository_decorator.single_document_result' => array(
         array('onSingleDocumentResult'),
       ),
-      'ordermind_logical_authorization_doctrine_mongo.event.repository_decorator.multiple_document_result' => array(
+      'logauth_doctrine_mongo.event.repository_decorator.multiple_document_result' => array(
         array('onMultipleDocumentResult'),
       ),
-      'ordermind_logical_authorization_doctrine_mongo.event.repository_decorator.lazy_document_collection_result' => array(
+      'logauth_doctrine_mongo.event.repository_decorator.lazy_document_collection_result' => array(
         array('onLazyDocumentCollectionResult'),
       ),
-      'ordermind_logical_authorization_doctrine_mongo.event.repository_decorator.before_create' => array(
+      'logauth_doctrine_mongo.event.repository_decorator.before_create' => array(
         array('onBeforeCreate'),
       ),
     );

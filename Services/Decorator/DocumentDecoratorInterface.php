@@ -56,7 +56,7 @@ interface DocumentDecoratorInterface
   /**
    * Saves the wrapped document
    *
-   * Before the save is performed, the decorator fires the event 'ordermind_logical_authorization_doctrine_mongo.event.document_decorator.before_save' and passes Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeSaveEvent.
+   * Before the save is performed, the decorator fires the event 'logauth_doctrine_mongo.event.document_decorator.before_save' and passes Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeSaveEvent.
    * If the abort flag in the event is then found to be TRUE the document is not saved and the method returns FALSE.
    * If the save succeeds the method returns the document decorator.
    *
@@ -69,7 +69,7 @@ interface DocumentDecoratorInterface
   /**
    * Deletes the wrapped document
    *
-   * Before the deletion is performed, the decorator fires the event 'ordermind_logical_authorization_doctrine_mongo.event.document_decorator.before_delete' and passes Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeDeleteEvent.
+   * Before the deletion is performed, the decorator fires the event 'logauth_doctrine_mongo.event.document_decorator.before_delete' and passes Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeDeleteEvent.
    * If the abort flag in the event is then found to be TRUE the document is not deleted and the method returns FALSE.
    * If the deletion succeeds the method returns the document decorator.
    *

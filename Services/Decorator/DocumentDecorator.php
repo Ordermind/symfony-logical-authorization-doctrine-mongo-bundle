@@ -104,7 +104,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
         $document = $this->getDocument();
         $event = new BeforeSaveEvent($document, $this->isNew());
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_mongo.event.document_decorator.before_save', $event);
+        $dispatcher->dispatch('logauth_doctrine_mongo.event.document_decorator.before_save', $event);
         if ($event->getAbort()) {
             return false;
         }
@@ -126,7 +126,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
         $document = $this->getDocument();
         $event = new BeforeDeleteEvent($document, $this->isNew());
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_mongo.event.document_decorator.before_delete', $event);
+        $dispatcher->dispatch('logauth_doctrine_mongo.event.document_decorator.before_delete', $event);
         if ($event->getAbort()) {
             return false;
         }
@@ -143,7 +143,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
   /**
    * Catch-all for method calls on the document
    *
-   * Traps all method calls on the document and fires the event 'ordermind_logical_authorization_doctrine_mongo.event.document_decorator.before_method_call' passing Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeMethodCallEvent.
+   * Traps all method calls on the document and fires the event 'logauth_doctrine_mongo.event.document_decorator.before_method_call' passing Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeMethodCallEvent.
    * If the abort flag in the event is then found to be TRUE the call is never transmitted to the document and instead the method returns NULL.
    *
    * @param string $method    The method used for the call
@@ -158,7 +158,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
         $metadata = $dm->getClassMetadata(get_class($document));
         $event = new BeforeMethodCallEvent($document, $this->isNew(), $metadata, $method, $arguments);
         $dispatcher = $this->getDispatcher();
-        $dispatcher->dispatch('ordermind_logical_authorization_doctrine_mongo.event.document_decorator.before_method_call', $event);
+        $dispatcher->dispatch('logauth_doctrine_mongo.event.document_decorator.before_method_call', $event);
         if ($event->getAbort()) {
             return null;
         }

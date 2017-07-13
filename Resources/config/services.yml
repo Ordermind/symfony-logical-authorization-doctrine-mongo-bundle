@@ -1,17 +1,17 @@
 services:
-  ordermind_logical_authorization_doctrine_mongo.service.repository_decorator_factory:
+  logauth_doctrine_mongo.service.repository_decorator_factory:
       class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\RepositoryDecoratorFactory
       calls:
           - [setManagerRegistry, ['@doctrine_mongodb']]
-          - [setDocumentDecoratorFactory, ['@ordermind_logical_authorization_doctrine_mongo.service.document_decorator_factory']]
+          - [setDocumentDecoratorFactory, ['@logauth_doctrine_mongo.service.document_decorator_factory']]
           - [setDispatcher, ['@event_dispatcher']]
-          - [setHelper, ['@ordermind_logical_authorization.service.helper']]
+          - [setHelper, ['@logauth.service.helper']]
 
-  ordermind_logical_authorization_doctrine_mongo.service.document_decorator_factory:
+  logauth_doctrine_mongo.service.document_decorator_factory:
       class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactory
-      arguments: ['@ordermind_logical_authorization.service.logical_authorization_model']
+      arguments: ['@logauth.service.logauth_model']
 
-  ordermind_logical_authorization_doctrine_mongo.event_listener.add_permissions:
+  logauth_doctrine_mongo.event_listener.add_permissions:
     class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\AddPermissions
     arguments:
       - '@doctrine_mongodb'
@@ -19,17 +19,17 @@ services:
       - '%doctrine_mongodb.odm.metadata.xml.class%'
       - '%doctrine_mongodb.odm.metadata.yml.class%'
     tags:
-      - {name: kernel.event_listener, event: logical_authorization.add_permissions, method: onAddPermissions}
+      - {name: kernel.event_listener, event: logauth.add_permissions, method: onAddPermissions}
 
-  ordermind_logical_authorization_doctrine_mongo.event_subscriber.repository_decorator:
+  logauth_doctrine_mongo.event_subscriber.repository_decorator:
     class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\RepositoryDecoratorSubscriber
-    arguments: ['@ordermind_logical_authorization.service.logical_authorization_model', '%ordermind_logical_authorization_doctrine_mongo.config%']
+    arguments: ['@logauth.service.logauth_model', '%logauth_doctrine_mongo.config%']
     tags:
       - {name: kernel.event_subscriber}
 
-  ordermind_logical_authorization_doctrine_mongo.event_subscriber.document_decorator:
+  logauth_doctrine_mongo.event_subscriber.document_decorator:
     class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\DocumentDecoratorSubscriber
-    arguments: ['@ordermind_logical_authorization.service.logical_authorization_model']
+    arguments: ['@logauth.service.logauth_model']
     tags:
       - {name: kernel.event_subscriber}
 

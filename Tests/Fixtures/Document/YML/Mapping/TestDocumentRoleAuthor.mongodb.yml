@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\YML\TestDocumentRoleAuthorRepository
   collection: testdocuments_roleauthor_yml
 
-  logical_authorization_permissions:
+  logauth_permissions:
     create:
       role: ROLE_ADMIN
     read:
@@ -24,7 +24,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
       id: true
     field1:
       type: string
-      logical_authorization_permissions:
+      logauth_permissions:
         get:
           role: ROLE_ADMIN
           flag: is_author

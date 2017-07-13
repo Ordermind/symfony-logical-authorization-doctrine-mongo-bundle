@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('ordermind_logical_authorization_doctrine_mongo');
+        $rootNode = $treeBuilder->root('logauth_doctrine_mongo');
 
         $rootNode
             ->children()
