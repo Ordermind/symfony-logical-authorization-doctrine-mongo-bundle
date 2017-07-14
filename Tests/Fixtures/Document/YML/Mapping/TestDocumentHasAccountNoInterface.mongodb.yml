@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\YML\TestDocumentHasAccountNoInterfaceRepository
   collection: testdocuments_hasaccount_yml
 
-  logauth:
+  permissions:
     create:
       flag: has_account
     read:
@@ -18,7 +18,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
       id: true
     field1:
       type: string
-      logauth:
+      permissions:
         get:
           flag: has_account
         set:

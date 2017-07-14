@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\YML\TestDocumentVariousPermissionsRepository
   collection: testdocuments_various_permissions_yml
 
-  logauth:
+  permissions:
     create: false
     read:
       flag: has_account
@@ -16,20 +16,20 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
   fields:
     id:
       id: true
-      logauth:
+      permissions:
         set:
           no_bypass: true
           0: false
     field1:
       type: string
-      logauth:
+      permissions:
         get:
           flag: has_account
         set:
           role: ROLE_ADMIN
     field2:
       type: string
-      logauth:
+      permissions:
         get: false
         set:
           flag: is_author
@@ -38,5 +38,5 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
   referenceOne:
     author:
       targetDocument: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\User\TestUser
-      logauth:
+      permissions:
         set: false

@@ -3,7 +3,7 @@
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 
@@ -11,7 +11,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * TestDocumentHasAccountNoInterface
  *
  * @ODM\Document(repositoryClass="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\Annotation\TestDocumentHasAccountNoInterfaceRepository", collection="testdocuments_hasaccount_annotation")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": {
  *     "flag": "has_account"
  *   },
@@ -40,7 +40,7 @@ class TestDocumentHasAccountNoInterface
      * @var string
      *
      * @ODM\Field(name="field1", type="string")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": {
      *     "flag": "has_account"
      *   },

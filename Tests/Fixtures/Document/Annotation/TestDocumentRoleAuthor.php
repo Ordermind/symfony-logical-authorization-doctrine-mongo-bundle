@@ -3,7 +3,7 @@
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 
@@ -11,7 +11,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * TestDocumentRoleAuthor
  *
  * @ODM\Document(repositoryClass="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\Annotation\TestDocumentRoleAuthorRepository", collection="testdocuments_roleauthor_annotation")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": {
  *     "role": "ROLE_ADMIN"
  *   },
@@ -49,7 +49,7 @@ class TestDocumentRoleAuthor implements ModelInterface
      * @var string
      *
      * @ODM\Field(name="field1", type="string")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": {
      *     "role": "ROLE_ADMIN",
      *     "flag": "is_author"

@@ -3,7 +3,7 @@
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 
@@ -11,7 +11,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * TestDocumentOverriddenPermissions
  *
  * @ODM\Document(repositoryClass="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\Annotation\TestDocumentOverriddenPermissionsRepository", collection="testdocuments_overridden_permissions_annotation")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": FALSE,
  *   "read": FALSE,
  *   "update": FALSE,
@@ -32,7 +32,7 @@ class TestDocumentOverriddenPermissions implements ModelInterface
      * @var string
      *
      * @ODM\Field(name="field1", type="string")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": FALSE,
      *   "set": FALSE
      * })

@@ -4,14 +4,14 @@ namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Docum
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface as LogicalAuthorizationUserInterface;
 
 /**
  * TestUser
  *
  * @ODM\Document(repositoryClass="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\User\TestUserRepository", collection="testusers")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": {
  *     "role": "ROLE_ADMIN"
  *   },
@@ -54,7 +54,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
    * @var string
    *
    * @ODM\Field(name="username", type="string")
-   * @LogicalAuthorizationPermissions({
+   * @Permissions({
    *   "get": {
    *     "OR": {
    *       "role": "ROLE_ADMIN",
@@ -77,7 +77,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
 
   /**
    * @var string
-   * @LogicalAuthorizationPermissions({
+   * @Permissions({
    *   "set": {
    *     "no_bypass": true,
    *     "flag": "is_author"
@@ -90,7 +90,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
    * @var array
    *
    * @ODM\Field(name="roles", type="collection")
-   * @LogicalAuthorizationPermissions({
+   * @Permissions({
    *   "get": {
    *     "role": "ROLE_ADMIN"
    *   },

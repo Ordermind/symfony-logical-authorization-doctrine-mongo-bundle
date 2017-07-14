@@ -3,7 +3,7 @@
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 
@@ -11,7 +11,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * TestDocumentNoBypass
  *
  * @ODM\Document(repositoryClass="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\Annotation\TestDocumentNoBypassRepository", collection="testdocuments_nobypass_annotation")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": {
  *     "no_bypass": true,
  *     FALSE
@@ -44,7 +44,7 @@ class TestDocumentNoBypass implements ModelInterface
      * @var string
      *
      * @ODM\Field(name="field1", type="string")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": {
      *     "no_bypass": true,
      *     FALSE

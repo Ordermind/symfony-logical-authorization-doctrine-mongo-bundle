@@ -3,7 +3,7 @@
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\LogicalAuthorizationPermissions;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\Permissions;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 
@@ -11,7 +11,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * TestDocumentVariousPermissions
  *
  * @ODM\Document(repositoryClass="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\Annotation\TestDocumentVariousPermissionsRepository", collection="testdocuments_various_permissions_annotation")
- * @LogicalAuthorizationPermissions({
+ * @Permissions({
  *   "create": FALSE,
  *   "read": {"flag": "has_account"},
  *   "update": {"role": "ROLE_ADMIN"},
@@ -25,7 +25,7 @@ class TestDocumentVariousPermissions implements ModelInterface
      *
      * @ODM\Field(name="id", type="integer")
      * @ODM\Id
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "set": {"no_bypass": true, FALSE}
      * })
      */
@@ -35,7 +35,7 @@ class TestDocumentVariousPermissions implements ModelInterface
      * @var string
      *
      * @ODM\Field(name="field1", type="string")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": {"flag": "has_account"},
      *   "set": {"role": "ROLE_ADMIN"}
      * })
@@ -46,7 +46,7 @@ class TestDocumentVariousPermissions implements ModelInterface
      * @var string
      *
      * @ODM\Field(name="field2", type="string")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "get": FALSE,
      *   "set": {"flag": "is_author"}
      * })
@@ -63,7 +63,7 @@ class TestDocumentVariousPermissions implements ModelInterface
     /**
      * @var \Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface
      * @ODM\ReferenceOne(targetDocument="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\User\TestUser")
-     * @LogicalAuthorizationPermissions({
+     * @Permissions({
      *   "set": FALSE
      * })
      */

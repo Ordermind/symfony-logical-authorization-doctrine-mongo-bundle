@@ -5,7 +5,7 @@
     http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
   <document name="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentVariousPermissions" repository-class="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\XML\TestDocumentVariousPermissionsRepository" collection="testdocuments_various_permissions_xml">
-    <logauth>
+    <permissions>
       <create>
         <value>FALSE</value>
       </create>
@@ -19,47 +19,47 @@
         <no_bypass>true</no_bypass>
         <value>FALSE</value>
       </delete>
-    </logauth>
+    </permissions>
 
     <field name="id" id="true">
-      <logauth>
+      <permissions>
         <set>
           <no_bypass>true</no_bypass>
           <value>FALSE</value>
         </set>
-      </logauth>
+      </permissions>
     </field>
 
     <field name="field1" type="string">
-      <logauth>
+      <permissions>
         <get>
           <flag>has_account</flag>
         </get>
         <set>
           <role>ROLE_ADMIN</role>
         </set>
-      </logauth>
+      </permissions>
     </field>
 
     <field name="field2" type="string">
-      <logauth>
+      <permissions>
         <get>
           <value>FALSE</value>
         </get>
         <set>
         <flag>is_author</flag>
         </set>
-      </logauth>
+      </permissions>
     </field>
 
     <field name="field3" type="string" />
 
     <reference-one field="author" target-document="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\User\TestUser">
-      <logauth>
+      <permissions>
         <set>
           <value>FALSE</value>
         </set>
-      </logauth>
+      </permissions>
     </reference-one>
   </document>
 </doctrine-mapping>

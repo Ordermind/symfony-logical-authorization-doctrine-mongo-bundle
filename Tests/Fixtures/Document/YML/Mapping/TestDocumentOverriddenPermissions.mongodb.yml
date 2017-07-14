@@ -3,7 +3,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
   repositoryClass: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\YML\TestDocumentOverriddenPermissionsRepository
   collection: testdocuments_overridden_permissions_yml
 
-  logauth:
+  permissions:
     create: false
     read: false
     update: false
@@ -14,7 +14,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
       id: true
     field1:
       type: string
-      logauth:
+      permissions:
         get: false
         set: false
     field2:

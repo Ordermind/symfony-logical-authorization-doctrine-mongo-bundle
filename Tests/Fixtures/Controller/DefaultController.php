@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
+use Ordermind\LogicalAuthorizationBundle\Annotation\Routing\Permissions;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocument;
 
@@ -215,11 +217,11 @@ class DefaultController extends Controller {
   }
 
   /**
-   * @Route("/load-test-document/{id}", name="load_test_document", options={
-   * "logauth": {
-   *   "role": "ROLE_ADMIN"
-   * }})
+   * @Route("/load-test-document/{id}", name="load_test_document")
    * @Method({"GET"})
+   * @Permissions({
+   *   "role": "ROLE_ADMIN"
+   * })
    */
   public function loadTestDocumentAction(Request $request, TestDocument $testDocument = null) {
     return new Response(get_class($testDocument));
