@@ -9,8 +9,8 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\DependencyInjection\LogAut
 
 class OrdermindLogicalAuthorizationDoctrineMongoBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
+    public function getContainerExtension()
     {
-        $container->registerExtension(new LogAuthDoctrineMongoExtension());
+        return new LogAuthDoctrineMongoExtension();
     }
 }
