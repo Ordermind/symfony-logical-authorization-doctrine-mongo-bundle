@@ -145,12 +145,11 @@ abstract class LogicalAuthorizationBase extends WebTestCase {
     $this->assertEquals(200, $response->getStatusCode());
   }
 
-  /**
-    * @expectedException Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-    */
   public function testRouteLoadDocumentDisallow() {
     $testDocumentDecorator = $this->testDocumentRepositoryDecorator->create()->save();
     $this->sendRequestAs('GET', '/test/load-test-document/' . $testDocumentDecorator->getId(), [], static::$authenticated_user);
+    $response = $this->client->getResponse();
+    $this->assertEquals(403, $response->getStatusCode());
   }
 
   /*------------RepositoryDecorator event tests------------*/
