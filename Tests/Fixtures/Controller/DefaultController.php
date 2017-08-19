@@ -67,7 +67,11 @@ class DefaultController extends Controller {
     $operations = $this->get('test_document_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
     $documentDecorator = $operations->createTestDocument();
-    return new JsonResponse(is_object($documentDecorator) && $documentDecorator instanceof DocumentDecoratorInterface);
+    if(is_object($documentDecorator) && $documentDecorator instanceof DocumentDecoratorInterface) {
+      return new JsonResponse($documentDecorator->getId());
+    }
+
+    return new JsonResponse(false);
   }
 
   /**
