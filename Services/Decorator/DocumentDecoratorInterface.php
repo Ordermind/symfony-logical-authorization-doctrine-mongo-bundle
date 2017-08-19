@@ -2,12 +2,14 @@
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator;
 
+use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelDecoratorInterface;
+
 /**
  * Decorator for document
  *
  * Wraps a document and monitors all communication with it. It also provides a few handy methods.
  */
-interface DocumentDecoratorInterface
+interface DocumentDecoratorInterface extends ModelDecoratorInterface
 {
 
   /**

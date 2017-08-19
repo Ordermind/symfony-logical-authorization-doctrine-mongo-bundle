@@ -4,6 +4,7 @@ namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeMethodCallEvent;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeSaveEvent;
@@ -49,6 +50,14 @@ class DocumentDecorator implements DocumentDecoratorInterface
         $this->dispatcher = $dispatcher;
         $this->laModel = $laModel;
         $this->document = $document;
+    }
+
+  /**
+   * {@inheritdoc}
+   */
+    public function getModel()
+    {
+        return $this->getDocument();
     }
 
   /**
