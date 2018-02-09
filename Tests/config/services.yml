@@ -1,155 +1,181 @@
 services:
-  cache.adapter.null:
-    class: Symfony\Component\Cache\Adapter\NullAdapter
-    abstract: true
-    arguments: [~, ~, ~]
-    tags:
-      - {name: cache.pool, clearer: cache.default_clearer}
+    cache.adapter.null:
+        class: Symfony\Component\Cache\Adapter\NullAdapter
+        abstract: true
+        arguments: [~, ~, ~]
+        tags:
+            - {name: cache.pool, clearer: cache.default_clearer}
+        public: false
 
-  test_document_operations:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Services\TestDocumentOperations
+    test_document_operations:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Services\TestDocumentOperations
+        public: true
 
-  repository_decorator_event_subscriber:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\EventListener\RepositoryDecoratorEventSubscriber
-    tags:
-        - { name: kernel.event_subscriber }
+    repository_decorator_event_subscriber:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\EventListener\RepositoryDecoratorEventSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+        public: false
 
-  document_decorator_event_subscriber:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\EventListener\DocumentDecoratorEventSubscriber
-    tags:
-        - { name: kernel.event_subscriber }
+    document_decorator_event_subscriber:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\EventListener\DocumentDecoratorEventSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+        public: false
 
-  repository.test_document:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-        - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocument
+    repository.test_document:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocument
+        public: true
 
-  repository.test_document_constructor_params:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-        - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentConstructorParams
+    repository.test_document_constructor_params:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentConstructorParams
+        public: true
 
-  repository.test_document_abort_create:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-        - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortCreate
+    repository.test_document_abort_create:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortCreate
+        public: true
 
-  repository.test_document_abort_calls:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-        - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortCalls
+    repository.test_document_abort_calls:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortCalls
+        public: true
 
-  repository.test_document_abort_save:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-        - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortSave
+    repository.test_document_abort_save:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortSave
+        public: true
 
-  repository.test_document_abort_delete:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-        - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortDelete
+    repository.test_document_abort_delete:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortDelete
+        public: true
 
-  repository.test_user:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\User\TestUser
+    repository.test_user:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\User\TestUser
+        public: true
 
-  # Annotation repositories
-  repository.test_document_roleauthor_annotation:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentRoleAuthor
+    # Annotation repositories
+    repository.test_document_roleauthor_annotation:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentRoleAuthor
+        public: true
 
-  repository.test_document_hasaccount_annotation:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentHasAccountNoInterface
+    repository.test_document_hasaccount_annotation:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentHasAccountNoInterface
+        public: true
 
-  repository.test_document_nobypass_annotation:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentNoBypass
+    repository.test_document_nobypass_annotation:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentNoBypass
+        public: true
 
-  repository.test_document_overridden_permissions_annotation:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentOverriddenPermissions
+    repository.test_document_overridden_permissions_annotation:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentOverriddenPermissions
+        public: true
 
-  repository.test_document_various_permissions_annotation:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentVariousPermissions
+    repository.test_document_various_permissions_annotation:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Annotation\TestDocumentVariousPermissions
+        public: true
 
-  # XML repositories
-  repository.test_document_roleauthor_xml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentRoleAuthor
+    # XML repositories
+    repository.test_document_roleauthor_xml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentRoleAuthor
+        public: true
 
-  repository.test_document_hasaccount_xml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentHasAccountNoInterface
+    repository.test_document_hasaccount_xml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentHasAccountNoInterface
+        public: true
 
-  repository.test_document_nobypass_xml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentNoBypass
+    repository.test_document_nobypass_xml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentNoBypass
+        public: true
 
-  repository.test_document_overridden_permissions_xml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentOverriddenPermissions
+    repository.test_document_overridden_permissions_xml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentOverriddenPermissions
+        public: true
 
-  repository.test_document_various_permissions_xml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentVariousPermissions
+    repository.test_document_various_permissions_xml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentVariousPermissions
+        public: true
 
-  # YML repositories
-  repository.test_document_roleauthor_yml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentRoleAuthor
+    # YML repositories
+    repository.test_document_roleauthor_yml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentRoleAuthor
+        public: true
 
-  repository.test_document_hasaccount_yml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentHasAccountNoInterface
+    repository.test_document_hasaccount_yml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentHasAccountNoInterface
+        public: true
 
-  repository.test_document_nobypass_yml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentNoBypass
+    repository.test_document_nobypass_yml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentNoBypass
+        public: true
 
-  repository.test_document_overridden_permissions_yml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentOverriddenPermissions
+    repository.test_document_overridden_permissions_yml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentOverriddenPermissions
+        public: true
 
-  repository.test_document_various_permissions_yml:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
-    factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
-    arguments:
-      - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentVariousPermissions
+    repository.test_document_various_permissions_yml:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
+        factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
+        arguments:
+            - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentVariousPermissions
+        public: true

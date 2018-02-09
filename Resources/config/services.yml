@@ -1,36 +1,41 @@
 services:
-  logauth_doctrine_mongo.service.repository_decorator_factory:
-      class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\RepositoryDecoratorFactory
-      calls:
-          - [setManagerRegistry, ['@doctrine_mongodb']]
-          - [setDocumentDecoratorFactory, ['@logauth_doctrine_mongo.service.document_decorator_factory']]
-          - [setDispatcher, ['@event_dispatcher']]
-          - [setHelper, ['@logauth.service.helper']]
+    logauth_doctrine_mongo.service.repository_decorator_factory:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\RepositoryDecoratorFactory
+        calls:
+            - [setManagerRegistry, ['@doctrine_mongodb']]
+            - [setDocumentDecoratorFactory, ['@logauth_doctrine_mongo.service.document_decorator_factory']]
+            - [setDispatcher, ['@event_dispatcher']]
+            - [setHelper, ['@logauth.service.helper']]
+        public: false
 
-  logauth_doctrine_mongo.service.document_decorator_factory:
-      class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactory
-      arguments: ['@logauth.service.logauth_model']
+    logauth_doctrine_mongo.service.document_decorator_factory:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactory
+        arguments: ['@logauth.service.logauth_model']
+        public: false
 
-  logauth_doctrine_mongo.event_listener.add_permissions:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\AddPermissions
-    arguments:
-      - '@doctrine_mongodb'
-      - '%doctrine_mongodb.odm.metadata.annotation.class%'
-      - '%doctrine_mongodb.odm.metadata.xml.class%'
-      - '%doctrine_mongodb.odm.metadata.yml.class%'
-    tags:
-      - {name: kernel.event_listener, event: logauth.add_permissions, method: onAddPermissions}
+    logauth_doctrine_mongo.event_listener.add_permissions:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\AddPermissions
+        arguments:
+            - '@doctrine_mongodb'
+            - '%doctrine_mongodb.odm.metadata.annotation.class%'
+            - '%doctrine_mongodb.odm.metadata.xml.class%'
+            - '%doctrine_mongodb.odm.metadata.yml.class%'
+        tags:
+            - {name: kernel.event_listener, event: logauth.add_permissions, method: onAddPermissions}
+        public: false
 
-  logauth_doctrine_mongo.event_subscriber.repository_decorator:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\RepositoryDecoratorSubscriber
-    arguments: ['@logauth.service.logauth_model', '%logauth_doctrine_mongo.config%']
-    tags:
-      - {name: kernel.event_subscriber}
+    logauth_doctrine_mongo.event_subscriber.repository_decorator:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\RepositoryDecoratorSubscriber
+        arguments: ['@logauth.service.logauth_model', '%logauth_doctrine_mongo.config%']
+        tags:
+            - {name: kernel.event_subscriber}
+        public: false
 
-  logauth_doctrine_mongo.event_subscriber.document_decorator:
-    class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\DocumentDecoratorSubscriber
-    arguments: ['@logauth.service.logauth_model']
-    tags:
-      - {name: kernel.event_subscriber}
+    logauth_doctrine_mongo.event_subscriber.document_decorator:
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener\DocumentDecoratorSubscriber
+        arguments: ['@logauth.service.logauth_model']
+        tags:
+            - {name: kernel.event_subscriber}
+        public: false
 
 
