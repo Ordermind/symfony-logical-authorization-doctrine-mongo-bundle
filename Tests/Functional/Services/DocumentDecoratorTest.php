@@ -31,7 +31,7 @@ class DoctrineODMDocumentDecoratorTest extends DecoratorBase {
   public function testSetObjectManager() {
     $repositoryDecorator = $this->container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
-    $documentDecorator->setDocumentManager($this->container->get('doctrine.odm.mongodb.document_manager'));
+    $documentDecorator->setDocumentManager($this->container->get('test.doctrine.odm.mongodb.document_manager'));
     $dm = $documentDecorator->getDocumentManager();
     $this->assertTrue($dm instanceof DocumentManager);
   }

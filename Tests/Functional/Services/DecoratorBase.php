@@ -16,7 +16,7 @@ abstract class DecoratorBase extends WebTestCase {
     $kernel = new \AppKernel('test', true);
     $kernel->boot();
     $this->container = $kernel->getContainer();
-    $this->dm = $this->container->get('doctrine.odm.mongodb.document_manager');
+    $this->dm = $this->container->get('test.doctrine.odm.mongodb.document_manager');
 
     $repository_services = array(
       'repository.test_document',

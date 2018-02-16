@@ -5,7 +5,7 @@ services:
         arguments: [~, ~, ~]
         tags:
             - {name: cache.pool, clearer: cache.default_clearer}
-        public: false
+        public: true
 
     test_document_operations:
         class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Services\TestDocumentOperations
@@ -15,13 +15,13 @@ services:
         class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\EventListener\RepositoryDecoratorEventSubscriber
         tags:
             - { name: kernel.event_subscriber }
-        public: false
+        public: true
 
     document_decorator_event_subscriber:
         class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\EventListener\DocumentDecoratorEventSubscriber
         tags:
             - { name: kernel.event_subscriber }
-        public: false
+        public: true
 
     repository.test_document:
         class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
@@ -178,4 +178,8 @@ services:
         factory: ['@logauth_doctrine_mongo.service.repository_decorator_factory', getRepositoryDecorator]
         arguments:
             - Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\TestDocumentVariousPermissions
+        public: true
+
+    test.doctrine.odm.mongodb.document_manager:
+        alias: doctrine.odm.mongodb.document_manager
         public: true
