@@ -1,6 +1,6 @@
 <?php
 
-namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Functional\Services;
+namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Functional\Services\Decorator;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ODM\MongoDB\DocumentManager;
