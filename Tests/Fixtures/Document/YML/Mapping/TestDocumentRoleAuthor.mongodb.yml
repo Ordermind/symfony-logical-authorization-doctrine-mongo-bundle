@@ -9,15 +9,15 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
     read:
       OR:
         role: ROLE_ADMIN
-        flag: is_author
+        flag: user_is_author
     update:
       OR:
         role: ROLE_ADMIN
-        flag: is_author
+        flag: user_is_author
     delete:
       OR:
         role: ROLE_ADMIN
-        flag: is_author
+        flag: user_is_author
 
   fields:
     id:
@@ -27,10 +27,10 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
       permissions:
         get:
           role: ROLE_ADMIN
-          flag: is_author
+          flag: user_is_author
         set:
           role: ROLE_ADMIN
-          flag: is_author
+          flag: user_is_author
     field2:
       type: string
     field3:

@@ -7,16 +7,16 @@
   <document name="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\XML\TestDocumentHasAccountNoInterface" repository-class="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\XML\TestDocumentHasAccountNoInterfaceRepository" collection="testdocuments_hasaccount_xml">
     <permissions>
       <create>
-        <flag>has_account</flag>
+        <flag>user_has_account</flag>
       </create>
       <read>
-        <flag>has_account</flag>
+        <flag>user_has_account</flag>
       </read>
       <update>
-        <flag>has_account</flag>
+        <flag>user_has_account</flag>
       </update>
       <delete>
-        <flag>has_account</flag>
+        <flag>user_has_account</flag>
       </delete>
     </permissions>
 
@@ -25,10 +25,10 @@
     <field name="field1" type="string">
       <permissions>
         <get>
-          <flag>has_account</flag>
+          <flag>user_has_account</flag>
         </get>
         <set>
-          <flag>has_account</flag>
+          <flag>user_has_account</flag>
         </set>
       </permissions>
     </field>

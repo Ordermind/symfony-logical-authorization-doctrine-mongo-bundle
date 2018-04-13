@@ -79,23 +79,10 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function callMethodGetterAction(Request $request) {
+    $author = $this->get('repository.test_user')->getRepository()->find($request->get('author'));
     $operations = $this->get('test_document_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $documentDecorator = $operations->createTestDocument(null, true);
-    $operations->callMethodSetter($documentDecorator, true);
-
-    return new Response($operations->callMethodGetter($documentDecorator));
-  }
-
-  /**
-    * @Route("/call-method-getter-author", name="call_method_getter_author")
-    * @Method({"GET"})
-    */
-  public function callMethodGetterAuthorAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
-    $operations = $this->get('test_document_operations');
-    $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $documentDecorator = $operations->createTestDocument($user, true);
+    $documentDecorator = $operations->createTestDocument($author, true);
     $operations->callMethodSetter($documentDecorator, true);
 
     return new Response($operations->callMethodGetter($documentDecorator));
@@ -106,23 +93,10 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function callMethodSetterAction(Request $request) {
+    $author = $this->get('repository.test_user')->getRepository()->find($request->get('author'));
     $operations = $this->get('test_document_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $documentDecorator = $operations->createTestDocument(null, true);
-    $operations->callMethodSetter($documentDecorator);
-
-    return new Response($operations->callMethodGetter($documentDecorator, true));
-  }
-
-  /**
-    * @Route("/call-method-setter-author", name="call_method_setter_author")
-    * @Method({"GET"})
-    */
-  public function callMethodSetterAuthorAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
-    $operations = $this->get('test_document_operations');
-    $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $documentDecorator = $operations->createTestDocument($user, true);
+    $documentDecorator = $operations->createTestDocument($author, true);
     $operations->callMethodSetter($documentDecorator);
 
     return new Response($operations->callMethodGetter($documentDecorator, true));
@@ -145,25 +119,10 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function saveDocumentUpdateAction(Request $request) {
+    $author = $this->get('repository.test_user')->getRepository()->find($request->get('author'));
     $operations = $this->get('test_document_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $documentDecorator = $operations->createTestDocument(null, true);
-    $operations->callMethodSetter($documentDecorator, true);
-    $documentDecorator->save();
-    $documentDecorator->getDocumentManager()->detach($documentDecorator->getDocument());
-    $persistedDocumentDecorator = $operations->getSingleDocumentResult($documentDecorator->getDocument()->getId(), true);
-    return new Response($operations->callMethodGetter($persistedDocumentDecorator, true));
-  }
-
-  /**
-    * @Route("/save-document-update-author", name="save_document_update_author")
-    * @Method({"GET"})
-    */
-  public function saveDocumentUpdateAuthorAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
-    $operations = $this->get('test_document_operations');
-    $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $documentDecorator = $operations->createTestDocument($user, true);
+    $documentDecorator = $operations->createTestDocument($author, true);
     $operations->callMethodSetter($documentDecorator, true);
     $documentDecorator->save();
     $documentDecorator->getDocumentManager()->detach($documentDecorator->getDocument());
@@ -176,23 +135,10 @@ class DefaultController extends Controller {
     * @Method({"GET"})
     */
   public function deleteDocumentAction(Request $request) {
+    $author = $this->get('repository.test_user')->getRepository()->find($request->get('author'));
     $operations = $this->get('test_document_operations');
     $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $documentDecorator = $operations->createTestDocument(null, true);
-    $documentDecorator->delete();
-    $result = $operations->getMultipleDocumentResult(true);
-    return new Response(count($result));
-  }
-
-  /**
-    * @Route("/delete-document-author", name="delete_document_author")
-    * @Method({"GET"})
-    */
-  public function deleteDocumentAuthorAction(Request $request) {
-    $user = $this->get('logauth.service.helper')->getCurrentUser();
-    $operations = $this->get('test_document_operations');
-    $operations->setRepositoryDecorator($this->get($request->get('repository_decorator_service')));
-    $documentDecorator = $operations->createTestDocument($user, true);
+    $documentDecorator = $operations->createTestDocument($author, true);
     $documentDecorator->delete();
     $result = $operations->getMultipleDocumentResult(true);
     return new Response(count($result));

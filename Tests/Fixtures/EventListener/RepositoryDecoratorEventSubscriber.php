@@ -10,6 +10,7 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorE
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\LazyDocumentCollectionResultEvent;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\BeforeCreateEvent;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\TestDocumentAbortCreate;
+use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 
 class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface {
   public static function getSubscribedEvents() {
@@ -73,12 +74,16 @@ class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface {
     foreach($documents as $i => $document) {
       $documents[$i] = $this->processDocument($document, $class);
     }
+
     return $documents;
   }
 
   protected function processDocument($document, $class) {
     if(!is_object($document) || get_class($document) !== $class) return $document;
-    $document->setField2('hej');
+    if(!($document instanceof UserInterface)) {
+      $document->setField2('hej');
+    }
+
     return $document;
   }
 }

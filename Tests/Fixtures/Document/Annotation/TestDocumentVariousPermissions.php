@@ -13,7 +13,7 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * @ODM\Document(repositoryClass="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\Annotation\TestDocumentVariousPermissionsRepository", collection="testdocuments_various_permissions_annotation")
  * @Permissions({
  *   "create": FALSE,
- *   "read": {"flag": "has_account"},
+ *   "read": {"flag": "user_has_account"},
  *   "update": {"role": "ROLE_ADMIN"},
  *   "delete": {"no_bypass": true, FALSE}
  * })
@@ -36,7 +36,7 @@ class TestDocumentVariousPermissions implements ModelInterface
      *
      * @ODM\Field(name="field1", type="string")
      * @Permissions({
-     *   "get": {"flag": "has_account"},
+     *   "get": {"flag": "user_has_account"},
      *   "set": {"role": "ROLE_ADMIN"}
      * })
      */
@@ -48,7 +48,7 @@ class TestDocumentVariousPermissions implements ModelInterface
      * @ODM\Field(name="field2", type="string")
      * @Permissions({
      *   "get": FALSE,
-     *   "set": {"flag": "is_author"}
+     *   "set": {"flag": "user_is_author"}
      * })
      */
     private $field2 = '';

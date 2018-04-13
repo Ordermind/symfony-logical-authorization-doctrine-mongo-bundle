@@ -6,7 +6,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
   permissions:
     create: false
     read:
-      flag: has_account
+      flag: user_has_account
     update:
       role: ROLE_ADMIN
     delete:
@@ -24,7 +24,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
       type: string
       permissions:
         get:
-          flag: has_account
+          flag: user_has_account
         set:
           role: ROLE_ADMIN
     field2:
@@ -32,7 +32,7 @@ Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\YML\Te
       permissions:
         get: false
         set:
-          flag: is_author
+          flag: user_is_author
     field3:
       type: string
   referenceOne:

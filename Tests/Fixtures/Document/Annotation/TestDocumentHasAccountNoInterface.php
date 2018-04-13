@@ -13,16 +13,16 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  * @ODM\Document(repositoryClass="Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\Annotation\TestDocumentHasAccountNoInterfaceRepository", collection="testdocuments_hasaccount_annotation")
  * @Permissions({
  *   "create": {
- *     "flag": "has_account"
+ *     "flag": "user_has_account"
  *   },
  *   "read": {
- *     "flag": "has_account"
+ *     "flag": "user_has_account"
  *   },
  *   "update": {
- *     "flag": "has_account"
+ *     "flag": "user_has_account"
  *   },
  *   "delete": {
- *     "flag": "has_account"
+ *     "flag": "user_has_account"
  *   }
  * })
  */
@@ -42,10 +42,10 @@ class TestDocumentHasAccountNoInterface
      * @ODM\Field(name="field1", type="string")
      * @Permissions({
      *   "get": {
-     *     "flag": "has_account"
+     *     "flag": "user_has_account"
      *   },
      *   "set": {
-     *     "flag": "has_account"
+     *     "flag": "user_has_account"
      *   }
      * })
      */

@@ -16,25 +16,23 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface as LogicalAuth
  *     "role": "ROLE_ADMIN"
  *   },
  *   "read": {
- *     "OR": {
- *       "role": "ROLE_ADMIN",
- *       "flag": "is_author"
- *     }
+ *     "role": "ROLE_ADMIN",
+ *     "flag": "user_is_author"
  *   },
  *   "update": {
  *     "OR": {
  *       "role": "ROLE_ADMIN",
- *       "flag": "is_author"
+ *       "flag": "user_is_author"
  *     }
  *   },
  *   "delete": {
  *     "no_bypass": {
- *       "flag": "is_author"
+ *       "flag": "user_is_author"
  *     },
  *     "AND": {
  *       "role": "ROLE_ADMIN",
  *       "flag": {
- *         "NOT": "is_author"
+ *         "NOT": "user_is_author"
  *       }
  *     }
  *   }
@@ -58,7 +56,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
    *   "get": {
    *     "OR": {
    *       "role": "ROLE_ADMIN",
-   *       "flag": "is_author"
+   *       "flag": "user_is_author"
    *     }
    *   },
    *   "set": {
@@ -80,7 +78,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
    * @Permissions({
    *   "set": {
    *     "no_bypass": true,
-   *     "flag": "is_author"
+   *     "flag": "user_is_author"
    *   }
    * })
    */
@@ -98,7 +96,7 @@ class TestUser implements UserInterface, LogicalAuthorizationUserInterface, \Ser
    *     "AND": {
    *       "role": "ROLE_ADMIN",
    *       "flag": {
-   *         "NOT": "is_author"
+   *         "NOT": "user_is_author"
    *       }
    *     }
    *   }

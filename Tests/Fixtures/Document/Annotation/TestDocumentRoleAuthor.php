@@ -18,19 +18,19 @@ use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
  *   "read": {
  *     "OR": {
  *       "role": "ROLE_ADMIN",
- *       "flag": "is_author"
+ *       "flag": "user_is_author"
  *     }
  *   },
  *   "update": {
  *     "OR": {
  *       "role": "ROLE_ADMIN",
- *       "flag": "is_author"
+ *       "flag": "user_is_author"
  *     }
  *   },
  *   "delete": {
  *     "OR": {
  *       "role": "ROLE_ADMIN",
- *       "flag": "is_author"
+ *       "flag": "user_is_author"
  *     }
  *   }
  * })
@@ -52,11 +52,11 @@ class TestDocumentRoleAuthor implements ModelInterface
      * @Permissions({
      *   "get": {
      *     "role": "ROLE_ADMIN",
-     *     "flag": "is_author"
+     *     "flag": "user_is_author"
      *   },
      *   "set": {
      *     "role": "ROLE_ADMIN",
-     *     "flag": "is_author"
+     *     "flag": "user_is_author"
      *   }
      * })
      */
