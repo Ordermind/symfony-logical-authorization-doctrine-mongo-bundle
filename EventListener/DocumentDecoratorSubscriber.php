@@ -6,9 +6,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 use Doctrine\Common\Inflector\Inflector;
 
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeMethodCallEvent;
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeSaveEvent;
-use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeDeleteEvent;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeMethodCallEventInterface;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeSaveEventInterface;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeDeleteEventInterface;
 
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 
@@ -33,7 +33,7 @@ class DocumentDecoratorSubscriber implements EventSubscriberInterface {
     );
   }
 
-  public function onBeforeMethodCall(BeforeMethodCallEvent $event) {
+  public function onBeforeMethodCall(BeforeMethodCallEventInterface $event) {
     static $stored_methods;
     if(!isset($stored_methods)) $stored_methods = array();
 
@@ -130,7 +130,7 @@ class DocumentDecoratorSubscriber implements EventSubscriberInterface {
     return $methods;
   }
 
-  public function onBeforeSave(BeforeSaveEvent $event) {
+  public function onBeforeSave(BeforeSaveEventInterface $event) {
     $document = $event->getDocument();
     if($event->isNew()) {
       if(!$this->laModel->checkModelAccess($document, 'create')) {
@@ -144,7 +144,7 @@ class DocumentDecoratorSubscriber implements EventSubscriberInterface {
     }
   }
 
-  public function onBeforeDelete(BeforeDeleteEvent $event) {
+  public function onBeforeDelete(BeforeDeleteEventInterface $event) {
     $document = $event->getDocument();
     if(!$event->isNew() && !$this->laModel->checkModelAccess($document, 'delete')) {
       $event->setAbort(true);
