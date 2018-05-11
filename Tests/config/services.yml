@@ -183,3 +183,11 @@ services:
     test.doctrine.odm.mongodb.document_manager:
         alias: doctrine.odm.mongodb.document_manager
         public: true
+
+    test.logauth.service.logauth_model:
+        alias: logauth.service.logauth_model
+        public: true
+
+    test.logauth.service.helper:
+        alias: logauth.service.helper
+        public: true
