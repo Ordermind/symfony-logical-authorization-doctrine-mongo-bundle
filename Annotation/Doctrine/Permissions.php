@@ -12,6 +12,11 @@ class Permissions {
     $this->permissions = $data['value'];
   }
 
+  /**
+   * Gets the permission tree for this document
+   *
+   * @return array|string|bool The permission tree for this document
+   */
   public function getPermissions() {
     return $this->permissions;
   }

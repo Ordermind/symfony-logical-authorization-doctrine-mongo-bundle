@@ -11,7 +11,7 @@ class BeforeSaveEvent extends Event implements BeforeSaveEventInterface
 {
 
   /**
-   * @var mixed
+   * @var object
    */
     protected $document;
 
@@ -28,7 +28,7 @@ class BeforeSaveEvent extends Event implements BeforeSaveEventInterface
   /**
    * @internal
    *
-   * @param mixed $document The document that is about to be saved
+   * @param object $document The document that is about to be saved
    * @param bool  $isNew A flag for the persistence status of the document
    */
     public function __construct($document, $isNew)

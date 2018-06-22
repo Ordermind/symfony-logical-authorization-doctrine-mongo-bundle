@@ -16,6 +16,14 @@ class AddPermissions {
   protected $xmlDriverClass;
   protected $ymlDriverClass;
 
+  /**
+   * @internal
+   *
+   * @param Doctrine\Common\Persistence\ManagerRegistry $managerRegistry ManagerRegistry service
+   * @param string $annotationDriverClass The class for the annotation driver
+   * @param string $xmlDriverClass The class for the XML driver
+   * @param string $ymlDriverClass The class for the Yaml driver
+   */
   public function __construct(ManagerRegistry $managerRegistry, $annotationDriverClass, $xmlDriverClass, $ymlDriverClass) {
     $this->managerRegistry = $managerRegistry;
     $this->annotationDriverClass = $annotationDriverClass;
@@ -23,6 +31,9 @@ class AddPermissions {
     $this->ymlDriverClass = $ymlDriverClass;
   }
 
+  /**
+   * Event listener callback for adding permissions to the tree
+   */
   public function onAddPermissions(AddPermissionsEventInterface $event) {
     $object_managers = $this->managerRegistry->getManagers();
     foreach($object_managers as $dm) {

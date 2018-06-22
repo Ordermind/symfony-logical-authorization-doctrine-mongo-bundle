@@ -11,7 +11,7 @@ interface BeforeMethodCallEventInterface
   /**
    * Gets the document on which the call is made
    *
-   * @return mixed
+   * @return object
    */
     public function getDocument();
 

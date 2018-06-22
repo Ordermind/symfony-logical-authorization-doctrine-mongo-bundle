@@ -15,10 +15,18 @@ use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInter
 class DocumentDecoratorSubscriber implements EventSubscriberInterface {
   protected $laModel;
 
+  /**
+   * @internal
+   *
+   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationModel service for checking model permissions
+   */
   public function __construct(LogicalAuthorizationModelInterface $laModel) {
     $this->laModel = $laModel;
   }
 
+  /**
+    * {@inheritdoc}
+    */
   public static function getSubscribedEvents() {
     return array(
       'logauth_doctrine_mongo.event.document_decorator.before_method_call' => array(
@@ -33,6 +41,11 @@ class DocumentDecoratorSubscriber implements EventSubscriberInterface {
     );
   }
 
+  /**
+   * Event subscriber callback for aborting method call on document if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeMethodCallEventInterface $event The subscribed event
+   */
   public function onBeforeMethodCall(BeforeMethodCallEventInterface $event) {
     static $stored_methods;
     if(!isset($stored_methods)) $stored_methods = array();
@@ -106,6 +119,37 @@ class DocumentDecoratorSubscriber implements EventSubscriberInterface {
     }
   }
 
+  /**
+   * Event subscriber callback for aborting saving of document if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeSaveEventInterface $event The subscribed event
+   */
+  public function onBeforeSave(BeforeSaveEventInterface $event) {
+    $document = $event->getDocument();
+    if($event->isNew()) {
+      if(!$this->laModel->checkModelAccess($document, 'create')) {
+        $event->setAbort(true);
+      }
+    }
+    else {
+      if(!$this->laModel->checkModelAccess($document, 'update')) {
+        $event->setAbort(true);
+      }
+    }
+  }
+
+  /**
+   * Event subscriber callback for aborting deletion of document if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeDeleteEventInterface $event The subscribed event
+   */
+  public function onBeforeDelete(BeforeDeleteEventInterface $event) {
+    $document = $event->getDocument();
+    if(!$event->isNew() && !$this->laModel->checkModelAccess($document, 'delete')) {
+      $event->setAbort(true);
+    }
+  }
+
   protected function getFieldMethods($document, $field_name) {
     $camelizedFieldName = Inflector::classify($field_name);
 
@@ -128,26 +172,5 @@ class DocumentDecoratorSubscriber implements EventSubscriberInterface {
     }
 
     return $methods;
-  }
-
-  public function onBeforeSave(BeforeSaveEventInterface $event) {
-    $document = $event->getDocument();
-    if($event->isNew()) {
-      if(!$this->laModel->checkModelAccess($document, 'create')) {
-        $event->setAbort(true);
-      }
-    }
-    else {
-      if(!$this->laModel->checkModelAccess($document, 'update')) {
-        $event->setAbort(true);
-      }
-    }
-  }
-
-  public function onBeforeDelete(BeforeDeleteEventInterface $event) {
-    $document = $event->getDocument();
-    if(!$event->isNew() && !$this->laModel->checkModelAccess($document, 'delete')) {
-      $event->setAbort(true);
-    }
   }
 }

@@ -19,11 +19,20 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
   protected $laModel;
   protected $config;
 
+  /**
+   * @internal
+   *
+   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationModel service for checking model permissions
+   * @param array $config The logauth_doctrine_mongo.config parameter
+   */
   public function __construct(LogicalAuthorizationModelInterface $laModel, array $config) {
     $this->laModel = $laModel;
     $this->config = $config;
   }
 
+  /**
+    * {@inheritdoc}
+    */
   public static function getSubscribedEvents() {
     return array(
       'logauth_doctrine_mongo.event.repository_decorator.unknown_result' => array(
@@ -44,21 +53,50 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
     );
   }
 
+  /**
+   * Event subscriber callback for modifying an unknown result from a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\UnknownResultEventInterface $event The subscribed event
+   */
   public function onUnknownResult(UnknownResultEventInterface $event) {
     $this->onResult($event);
   }
+
+  /**
+   * Event subscriber callback for modifying a single document result from a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\SingleDocumentResultEventInterface $event The subscribed event
+   */
   public function onSingleDocumentResult(SingleDocumentResultEventInterface $event) {
     $this->onResult($event);
   }
+
+  /**
+   * Event subscriber callback for modifying a multiple document result from a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\MultipleDocumentResultEventInterface $event The subscribed event
+   */
   public function onMultipleDocumentResult(MultipleDocumentResultEventInterface $event) {
     $this->onResult($event);
   }
+
+  /**
+   * Event subscriber callback for aborting the creation of a document by a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\BeforeCreateEventInterface $event The subscribed event
+   */
   public function onBeforeCreate(BeforeCreateEventInterface $event) {
     $class = $event->getDocumentClass();
     if(!$this->laModel->checkModelAccess($class, 'create')) {
       $event->setAbort(true);
     }
   }
+
+  /**
+   * Event subscriber callback for modifying a lazy document collection result from a repository decorator if access is not granted
+   *
+   * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\LazyDocumentCollectionResultEventInterface $event The subscribed event
+   */
   public function onLazyDocumentCollectionResult(LazyDocumentCollectionResultEventInterface $event) {
     if(empty($this->config['check_lazy_loaded_documents'])) return;
 
