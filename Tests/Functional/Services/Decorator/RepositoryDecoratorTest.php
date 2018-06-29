@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Functional\Services\Decorator;
 
@@ -9,7 +10,7 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\Documen
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repository\Misc\TestDocumentRepository;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocument;
 
-class DoctrineODMRepositoryDecoratorTest extends DecoratorBase {
+class RepositoryDecoratorTest extends DecoratorBase {
 
   public function testClass() {
     $repositoryDecorator = $this->container->get('repository.test_document');
@@ -186,8 +187,10 @@ class DoctrineODMRepositoryDecoratorTest extends DecoratorBase {
   public function testWrapDocumentsSingleDocument() {
     $repositoryDecorator = $this->container->get('repository.test_document');
     $document = new TestDocument();
-    $documentDecorator = $repositoryDecorator->wrapDocuments($document);
-    $this->assertTrue($documentDecorator instanceof DocumentDecorator);
+    $documentDecorators = $repositoryDecorator->wrapDocuments($document);
+    foreach($documentDecorators as $documentDecorator) {
+      $this->assertTrue($documentDecorator instanceof DocumentDecorator);
+    }
   }
 
   public function testWrapDocuments() {

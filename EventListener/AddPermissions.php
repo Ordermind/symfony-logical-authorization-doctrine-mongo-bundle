@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener;
 
@@ -11,9 +12,24 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\Permis
 use Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface;
 
 class AddPermissions {
+  /**
+   * @var Doctrine\Common\Persistence\ManagerRegistry
+   */
   protected $managerRegistry;
+
+  /**
+   * @var string
+   */
   protected $annotationDriverClass;
+
+  /**
+   * @var string
+   */
   protected $xmlDriverClass;
+
+  /**
+   * @var string
+   */
   protected $ymlDriverClass;
 
   /**
@@ -24,7 +40,7 @@ class AddPermissions {
    * @param string $xmlDriverClass The class for the XML driver
    * @param string $ymlDriverClass The class for the Yaml driver
    */
-  public function __construct(ManagerRegistry $managerRegistry, $annotationDriverClass, $xmlDriverClass, $ymlDriverClass) {
+  public function __construct(ManagerRegistry $managerRegistry, string $annotationDriverClass, string $xmlDriverClass, string $ymlDriverClass) {
     $this->managerRegistry = $managerRegistry;
     $this->annotationDriverClass = $annotationDriverClass;
     $this->xmlDriverClass = $xmlDriverClass;
@@ -133,7 +149,7 @@ class AddPermissions {
     $event->insertTree($permissionTree);
   }
 
-  protected function massagePermissionsRecursive($permissions) {
+  protected function massagePermissionsRecursive($permissions): array {
     $massaged_permissions = [];
     foreach($permissions as $key => $value) {
       if(is_array($value)) {

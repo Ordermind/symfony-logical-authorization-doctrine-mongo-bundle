@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents;
+
+use Doctrine\Common\Persistence\ObjectRepository;
 
 /**
  * Base result event
@@ -15,21 +18,21 @@ interface AbstractResultEventInterface
    *
    * @return Doctrine\Common\Persistence\ObjectRepository
    */
-    public function getRepository();
+    public function getRepository(): ObjectRepository;
 
   /**
    * Gets the method that was used for the call
    *
    * @return string
    */
-    public function getMethod();
+    public function getMethod(): string;
 
   /**
    * Gets the arguments for the call
    *
    * @return array
    */
-    public function getArguments();
+    public function getArguments(): array;
 
   /**
    * Gets the returned result

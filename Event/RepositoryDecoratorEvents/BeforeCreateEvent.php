@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents;
 
@@ -25,7 +26,7 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
    *
    * @param string $documentClass The class of the document that is about to be created
    */
-    public function __construct($documentClass)
+    public function __construct(string $documentClass)
     {
         $this->documentClass = $documentClass;
     }
@@ -33,7 +34,7 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
   /**
    * {@inheritdoc}
    */
-    public function getDocumentClass()
+    public function getDocumentClass(): string
     {
         return $this->documentClass;
     }
@@ -41,7 +42,7 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
   /**
    * {@inheritdoc}
    */
-    public function getAbort()
+    public function getAbort(): bool
     {
         return $this->abort;
     }
@@ -49,8 +50,8 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
   /**
    * {@inheritdoc}
    */
-    public function setAbort($abort)
+    public function setAbort(bool $abort)
     {
-        $this->abort = (bool) $abort;
+        $this->abort = $abort;
     }
 }

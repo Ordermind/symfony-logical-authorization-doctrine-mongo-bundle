@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator;
 
@@ -81,7 +82,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getDocumentManager()
+    public function getDocumentManager(): ObjectManager
     {
         return $this->dm;
     }
@@ -89,7 +90,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getAvailableActions($user = null, $document_actions = array('create', 'read', 'update', 'delete'), $field_actions = array('get', 'set'))
+    public function getAvailableActions($user = null, array $document_actions = ['create', 'read', 'update', 'delete'], array $field_actions = ['get', 'set']): array
     {
         return $this->laModel->getAvailableActions($this->getDocument(), $document_actions, $field_actions, $user);
     }
@@ -97,7 +98,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function isNew()
+    public function isNew(): bool
     {
         $dm = $this->getDocumentManager();
         $document = $this->getDocument();
@@ -108,7 +109,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function save($andFlush = true)
+    public function save(bool $andFlush = true)
     {
         $document = $this->getDocument();
         $event = new BeforeSaveEvent($document, $this->isNew());
@@ -130,7 +131,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function delete($andFlush = true)
+    public function delete(bool $andFlush = true)
     {
         $document = $this->getDocument();
         $event = new BeforeDeleteEvent($document, $this->isNew());
@@ -160,7 +161,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
    *
    * @return mixed|NULL
    */
-    public function __call($method, array $arguments)
+    public function __call(string $method, array $arguments)
     {
         $dm = $this->getDocumentManager();
         $document = $this->getDocument();
@@ -177,7 +178,7 @@ class DocumentDecorator implements DocumentDecoratorInterface
         return $result;
     }
 
-    protected function getDispatcher()
+    protected function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
     }

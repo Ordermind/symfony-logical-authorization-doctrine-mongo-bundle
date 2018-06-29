@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator;
 
@@ -15,7 +16,7 @@ interface DocumentDecoratorInterface extends ModelDecoratorInterface
   /**
    * Gets the document that is wrapped by this decorator
    *
-   * @return mixed
+   * @return object
    */
     public function getDocument();
 
@@ -33,7 +34,7 @@ interface DocumentDecoratorInterface extends ModelDecoratorInterface
    *
    * @return Doctrine\Common\Persistence\ObjectManager
    */
-    public function getDocumentManager();
+    public function getDocumentManager(): \Doctrine\Common\Persistence\ObjectManager;
 
   /**
    * Gets all available document and field actions on this document for a given user
@@ -46,14 +47,14 @@ interface DocumentDecoratorInterface extends ModelDecoratorInterface
    *
    * @return array A map of available actions
    */
-    public function getAvailableActions($user = null, $document_actions = array('create', 'read', 'update', 'delete'), $field_actions = array('get', 'set'));
+    public function getAvailableActions($user = null, array $document_actions = ['create', 'read', 'update', 'delete'], array $field_actions = ['get', 'set']);
 
   /**
    * Returns TRUE if the document is new. Returns FALSE if the document is persisted.
    *
    * @return bool
    */
-    public function isNew();
+    public function isNew(): bool;
 
   /**
    * Saves the wrapped document
@@ -66,7 +67,7 @@ interface DocumentDecoratorInterface extends ModelDecoratorInterface
    *
    * @return Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface|FALSE
    */
-    public function save($andFlush = true);
+    public function save(bool $andFlush = true);
 
   /**
    * Deletes the wrapped document
@@ -79,5 +80,5 @@ interface DocumentDecoratorInterface extends ModelDecoratorInterface
    *
    * @return Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface|FALSE
    */
-    public function delete($andFlush = true);
+    public function delete(bool $andFlush = true);
 }

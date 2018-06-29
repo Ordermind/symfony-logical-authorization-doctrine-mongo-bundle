@@ -1,14 +1,18 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\DocumentRepository;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\ModelInterface;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 use Ordermind\LogicalAuthorizationBundle\Services\HelperInterface;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactoryInterface;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\UnknownResultEvent;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\SingleDocumentResultEvent;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorEvents\MultipleDocumentResultEvent;
@@ -22,12 +26,12 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
 {
 
   /**
-   * @var Doctrine\Common\Persistence\ObjectManager
+   * @var Doctrine\ODM\MongoDB\DocumentManager
    */
     protected $dm;
 
   /**
-   * @var Doctrine\Common\Persistence\ObjectRepository
+   * @var Doctrine\ODM\MongoDB\DocumentRepository
    */
     protected $repository;
 
@@ -49,13 +53,13 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * @internal
    *
-   * @param Doctrine\Common\Persistence\ObjectManager                                     $dm                  The document manager to use in this decorator
+   * @param Doctrine\ODM\MongoDB\DocumentManager                                    $dm                  The document manager to use in this decorator
    * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactoryInterface $documentDecoratorFactory The factory to use for creating new document decorators
    * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                    $dispatcher          The event dispatcher to use in this decorator
    * @param Ordermind\LogicalAuthorizationBundle\Services\HelperInterface $helper LogicalAuthorizaton helper service
    * @param string                                                                        $class               The document class to use in this decorator
    */
-    public function __construct(ObjectManager $dm, DocumentDecoratorFactoryInterface $documentDecoratorFactory, EventDispatcherInterface $dispatcher, HelperInterface $helper, $class)
+    public function __construct(DocumentManager $dm, DocumentDecoratorFactoryInterface $documentDecoratorFactory, EventDispatcherInterface $dispatcher, HelperInterface $helper, string $class)
     {
         $this->dm = $dm;
         $this->repository = $dm->getRepository($class);
@@ -67,7 +71,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getClassName()
+    public function getClassName(): string
     {
         $repository = $this->getRepository();
 
@@ -77,7 +81,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function setDocumentManager(ObjectManager $dm)
+    public function setDocumentManager(DocumentManager $dm)
     {
         $this->dm = $dm;
 
@@ -87,7 +91,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getDocumentManager()
+    public function getDocumentManager(): DocumentManager
     {
         return $this->dm;
     }
@@ -95,7 +99,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getRepository()
+    public function getRepository(): DocumentRepository
     {
         return $this->repository;
     }
@@ -103,7 +107,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function find($id, $lockMode = null, $lockVersion = null)
+    public function find($id, $lockMode = null, $lockVersion = null): ?DocumentDecoratorInterface
     {
         $repository = $this->getRepository();
         $result = $repository->find($id, $lockMode, $lockVersion);
@@ -118,7 +122,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function findAll()
+    public function findAll(): array
     {
         $repository = $this->getRepository();
         $result = $repository->findAll();
@@ -133,7 +137,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null)
+    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null): array
     {
         $repository = $this->getRepository();
         $result = $repository->findBy($criteria, $sort, $limit, $skip);
@@ -148,7 +152,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function findOneBy(array $criteria)
+    public function findOneBy(array $criteria): DocumentDecoratorInterface
     {
         $repository = $this->getRepository();
         $result = $repository->findOneBy($criteria);
@@ -163,7 +167,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function matching(Criteria $criteria)
+    public function matching(Criteria $criteria): ArrayCollection
     {
         $repository = $this->getRepository();
         $result = $repository->matching($criteria);
@@ -178,7 +182,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function create()
+    public function create(): ?DocumentDecoratorInterface
     {
         $class = $this->getClassName();
 
@@ -207,10 +211,12 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function wrapDocuments($documents)
+    public function wrapDocuments($documents): ?array
     {
         if (!is_array($documents)) {
-            return $this->wrapDocument($documents);
+            if(is_null($documents)) return $documents;
+
+            return [$this->wrapDocument($documents)];
         }
 
         foreach ($documents as $i => $document) {
@@ -242,7 +248,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
    *
    * @return mixed
    */
-    public function __call($method, array $arguments)
+    public function __call(string $method, array $arguments)
     {
         $repository = $this->getRepository();
         $result = call_user_func_array([$repository, $method], $arguments);
@@ -251,10 +257,14 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $dispatcher->dispatch('logauth_doctrine_mongo.event.repository_decorator.unknown_result', $event);
         $result = $event->getResult();
 
+        if(!is_array($result)) {
+          return $this->wrapDocument($result);
+        }
+
         return $this->wrapDocuments($result);
     }
 
-    protected function getDispatcher()
+    protected function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
     }

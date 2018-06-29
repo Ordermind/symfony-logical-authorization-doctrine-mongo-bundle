@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator;
 
@@ -18,30 +19,30 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return string
    */
-    public function getClassName();
+    public function getClassName(): string;
 
   /**
    * Overrides the document manager that is used in this decorator
    *
-   * @param Doctrine\Common\Persistence\ObjectManager $dm The document manager that is to be used in this decorator
+   * @param Doctrine\ODM\MongoDB\DocumentManager $dm The document manager that is to be used in this decorator
    *
    * @return Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\RepositoryDecorator
    */
-    public function setDocumentManager(\Doctrine\Common\Persistence\ObjectManager $dm);
+    public function setDocumentManager(\Doctrine\ODM\MongoDB\DocumentManager $dm);
 
   /**
    * Gets the document manager that is used in this decorator
    *
-   * @return Doctrine\Common\Persistence\ObjectManager
+   * @return Doctrine\ODM\MongoDB\DocumentManager
    */
-    public function getDocumentManager();
+    public function getDocumentManager(): \Doctrine\ODM\MongoDB\DocumentManager;
 
   /**
    * Gets the repository that is wrapped by this decorator
    *
-   * @return Doctrine\Common\Persistence\ObjectRepository
+   * @return Doctrine\ODM\MongoDB\DocumentRepository
    */
-    public function getRepository();
+    public function getRepository(): \Doctrine\ODM\MongoDB\DocumentRepository;
 
   /**
    * Finds a document by its identifier
@@ -54,7 +55,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface|NULL
    */
-    public function find($id, $lockMode = null, $lockVersion = null);
+    public function find($id, $lockMode = null, $lockVersion = null): ?\Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface;
 
   /**
    * Finds all documents for this repository decorator
@@ -63,7 +64,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return array
    */
-    public function findAll();
+    public function findAll(): array;
 
   /**
    * Finds documents for this repository decorator filtered by a set of criteria
@@ -77,7 +78,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return array
    */
-    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null);
+    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null): array;
 
   /**
    * Finds a document for this repository decorator filtered by a set of criteria
@@ -88,7 +89,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface|NULL
    */
-    public function findOneBy(array $criteria);
+    public function findOneBy(array $criteria): ?\Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface;
 
   /**
    * Finds documents for this repository decorator filtered by a set of criteria
@@ -99,7 +100,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return Doctrine\Common\Collections\ArrayCollection
    */
-    public function matching(\Doctrine\Common\Collections\Criteria $criteria);
+    public function matching(\Doctrine\Common\Collections\Criteria $criteria): \Doctrine\Common\Collections\ArrayCollection;
 
   /**
    * Creates a new document decorator
@@ -112,7 +113,7 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @return Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface|NULL
    */
-    public function create();
+    public function create(): ?\Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface;
 
   /**
    * Wraps an array of documents in document decorators
@@ -121,9 +122,9 @@ interface RepositoryDecoratorInterface extends ObjectRepository, Selectable
    *
    * @param array $documents The documents to be wrapped in document decorators
    *
-   * @return array
+   * @return array|NULL
    */
-    public function wrapDocuments($documents);
+    public function wrapDocuments($documents): ?array;
 
   /**
    * Wraps a document in a document decorator

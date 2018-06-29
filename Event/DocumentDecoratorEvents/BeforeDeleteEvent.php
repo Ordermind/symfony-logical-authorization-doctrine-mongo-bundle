@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents;
 
@@ -11,7 +12,7 @@ class BeforeDeleteEvent extends Event implements BeforeDeleteEventInterface
 {
 
   /**
-   * @var mixed
+   * @var object
    */
     protected $document;
 
@@ -28,10 +29,10 @@ class BeforeDeleteEvent extends Event implements BeforeDeleteEventInterface
   /**
    * @internal
    *
-   * @param mixed $document The document that is about to be deleted
+   * @param object $document The document that is about to be deleted
    * @param bool  $isNew A flag for the persistence status of the document
    */
-    public function __construct($document, $isNew)
+    public function __construct($document, bool $isNew)
     {
         $this->document = $document;
         $this->isNew = $isNew;
@@ -48,7 +49,7 @@ class BeforeDeleteEvent extends Event implements BeforeDeleteEventInterface
   /**
    * {@inheritdoc}
    */
-    public function isNew()
+    public function isNew(): bool
     {
         return $this->isNew;
     }
@@ -56,7 +57,7 @@ class BeforeDeleteEvent extends Event implements BeforeDeleteEventInterface
   /**
    * {@inheritdoc}
    */
-    public function getAbort()
+    public function getAbort(): bool
     {
         return $this->abort;
     }
@@ -64,8 +65,8 @@ class BeforeDeleteEvent extends Event implements BeforeDeleteEventInterface
   /**
    * {@inheritdoc}
    */
-    public function setAbort($abort)
+    public function setAbort(bool $abort)
     {
-        $this->abort = (bool) $abort;
+        $this->abort = $abort;
     }
 }

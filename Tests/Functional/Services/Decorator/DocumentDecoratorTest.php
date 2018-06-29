@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Functional\Services\Decorator;
 
@@ -6,7 +7,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecorator;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocument;
 
-class DoctrineODMDocumentDecoratorTest extends DecoratorBase {
+class DocumentDecoratorTest extends DecoratorBase {
 
   public function testClass() {
     $repositoryDecorator = $this->container->get('repository.test_document');

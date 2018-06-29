@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener;
 
@@ -16,7 +17,14 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorE
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 
 class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
+  /**
+   * @var Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface
+   */
   protected $laModel;
+
+  /**
+   * @var array
+   */
   protected $config;
 
   /**
@@ -33,24 +41,24 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
   /**
     * {@inheritdoc}
     */
-  public static function getSubscribedEvents() {
-    return array(
-      'logauth_doctrine_mongo.event.repository_decorator.unknown_result' => array(
-        array('onUnknownResult'),
-      ),
-      'logauth_doctrine_mongo.event.repository_decorator.single_document_result' => array(
-        array('onSingleDocumentResult'),
-      ),
-      'logauth_doctrine_mongo.event.repository_decorator.multiple_document_result' => array(
-        array('onMultipleDocumentResult'),
-      ),
-      'logauth_doctrine_mongo.event.repository_decorator.before_create' => array(
-        array('onBeforeCreate'),
-      ),
-      'logauth_doctrine_mongo.event.repository_decorator.lazy_document_collection_result' => array(
-        array('onLazyDocumentCollectionResult'),
-      ),
-    );
+  public static function getSubscribedEvents(): array {
+    return [
+      'logauth_doctrine_mongo.event.repository_decorator.unknown_result' => [
+        ['onUnknownResult'],
+      ],
+      'logauth_doctrine_mongo.event.repository_decorator.single_document_result' => [
+        ['onSingleDocumentResult'],
+      ],
+      'logauth_doctrine_mongo.event.repository_decorator.multiple_document_result' => [
+        ['onMultipleDocumentResult'],
+      ],
+      'logauth_doctrine_mongo.event.repository_decorator.before_create' => [
+        ['onBeforeCreate'],
+      ],
+      'logauth_doctrine_mongo.event.repository_decorator.lazy_document_collection_result' => [
+        ['onLazyDocumentCollectionResult'],
+      ],
+    ];
   }
 
   /**
@@ -119,14 +127,16 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
 
     $event->setResult($filtered_result);
   }
-  protected function filterDocuments($documents, $class) {
+
+  protected function filterDocuments(array $documents, string $class) {
     foreach($documents as $i => $document) {
       $documents[$i] = $this->filterDocumentByPermissions($document, $class);
     }
     $documents = array_filter($documents);
     return $documents;
   }
-  protected function filterDocumentCollection($collection, $class) {
+
+  protected function filterDocumentCollection(Collection $collection, string $class) {
     foreach($collection as $i => $document) {
       if(is_null($this->filterDocumentByPermissions($document, $class))) {
         $collection->remove($i);
@@ -134,7 +144,8 @@ class RepositoryDecoratorSubscriber implements EventSubscriberInterface {
     }
     return $collection;
   }
-  protected function filterDocumentByPermissions($document, $class) {
+
+  protected function filterDocumentByPermissions($document, string $class) {
     if(!is_object($document) || get_class($document) !== $class) return $document;
 
     if(!$this->laModel->checkModelAccess($document, 'read')) {
