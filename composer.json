@@ -1,7 +1,7 @@
 {
     "type": "symfony-bundle",
     "name": "ordermind/logical-authorization-doctrine-mongo-bundle",
-    "version": "0.3.6",
+    "version": "0.3.7",
     "license": "MIT",
     "description": "Doctrine MongoDB integration for LogicalAuthorization bundle",
     "keywords": ["doctrine", "odm", "mongodb", "logical-authorization"],
