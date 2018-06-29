@@ -1,10 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecorator;
+use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface;
 use Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface;
 
 /**
@@ -30,7 +32,7 @@ class DocumentDecoratorFactory implements DocumentDecoratorFactoryInterface
   /**
    * {@inheritdoc}
    */
-    public function getDocumentDecorator(ObjectManager $dm, EventDispatcherInterface $dispatcher, $document)
+    public function getDocumentDecorator(DocumentManager $dm, EventDispatcherInterface $dispatcher, $document): DocumentDecoratorInterface
     {
         return new DocumentDecorator($dm, $dispatcher, $this->laModel, $document);
     }
