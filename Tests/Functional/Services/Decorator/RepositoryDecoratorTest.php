@@ -188,6 +188,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
     $repositoryDecorator = $this->container->get('repository.test_document');
     $document = new TestDocument();
     $documentDecorators = $repositoryDecorator->wrapDocuments($document);
+    $this->assertEquals(1, count($documentDecorators));
     foreach($documentDecorators as $documentDecorator) {
       $this->assertTrue($documentDecorator instanceof DocumentDecorator);
     }

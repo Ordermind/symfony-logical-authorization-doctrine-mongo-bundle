@@ -152,7 +152,7 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function findOneBy(array $criteria): DocumentDecoratorInterface
+    public function findOneBy(array $criteria): ?DocumentDecoratorInterface
     {
         $repository = $this->getRepository();
         $result = $repository->findOneBy($criteria);
