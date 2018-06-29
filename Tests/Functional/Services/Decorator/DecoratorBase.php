@@ -7,17 +7,17 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class DecoratorBase extends WebTestCase {
   protected $dm;
-  protected $container;
 
   /**
    * This method is run before each public test method
    */
   protected function setUp() {
     require_once __DIR__.'/../../../AppKernel.php';
+
     $kernel = new \AppKernel('test', true);
     $kernel->boot();
-    $this->container = $kernel->getContainer();
-    $this->dm = $this->container->get('test.doctrine.odm.mongodb.document_manager');
+    static::$container = $kernel->getContainer();
+    $this->dm = static::$container->get('test.doctrine.odm.mongodb.document_manager');
 
     $repository_services = array(
       'repository.test_document',
@@ -32,7 +32,7 @@ abstract class DecoratorBase extends WebTestCase {
   }
 
   protected function deleteAllDocuments($repository_service) {
-    $repositoryDecorator = $this->container->get($repository_service);
+    $repositoryDecorator = static::$container->get($repository_service);
     $documentDecorators = $repositoryDecorator->findAll();
     foreach($documentDecorators as $documentDecorator) {
       $documentDecorator->delete(false);

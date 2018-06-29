@@ -10,35 +10,35 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Mi
 class DocumentDecoratorTest extends DecoratorBase {
 
   public function testClass() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $this->assertTrue($documentDecorator instanceof DocumentDecorator);
   }
 
   public function testGetDocument() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $document = $documentDecorator->getDocument();
     $this->assertTrue($document instanceof TestDocument);
   }
 
   public function testGetObjectManager() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $dm = $documentDecorator->getDocumentManager();
     $this->assertTrue($dm instanceof DocumentManager);
   }
 
   public function testSetObjectManager() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
-    $documentDecorator->setDocumentManager($this->container->get('test.doctrine.odm.mongodb.document_manager'));
+    $documentDecorator->setDocumentManager(static::$container->get('test.doctrine.odm.mongodb.document_manager'));
     $dm = $documentDecorator->getDocumentManager();
     $this->assertTrue($dm instanceof DocumentManager);
   }
 
   public function testSave() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -47,7 +47,7 @@ class DocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testSaveNoFlush() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save(false);
@@ -60,7 +60,7 @@ class DocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testSaveAbort() {
-    $repositoryDecorator = $this->container->get('repository.test_document_abort_save');
+    $repositoryDecorator = static::$container->get('repository.test_document_abort_save');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $response = $documentDecorator->save();
@@ -70,7 +70,7 @@ class DocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testDelete() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -82,7 +82,7 @@ class DocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testDeleteNoFlush() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -98,7 +98,7 @@ class DocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testDeleteAbort() {
-    $repositoryDecorator = $this->container->get('repository.test_document_abort_delete');
+    $repositoryDecorator = static::$container->get('repository.test_document_abort_delete');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -111,14 +111,14 @@ class DocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testCall() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $this->assertEquals('test', $documentDecorator->getDocument()->getField1());
   }
 
   public function testCallAbort() {
-    $repositoryDecorator = $this->container->get('repository.test_document_abort_calls');
+    $repositoryDecorator = static::$container->get('repository.test_document_abort_calls');
     $documentDecorator = $repositoryDecorator->create();
     $document = $documentDecorator->getDocument();
     $response = $documentDecorator->setField1('test');
@@ -130,7 +130,7 @@ class DocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testIsNew() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $this->assertTrue($documentDecorator->isNew());
     $documentDecorator->save();
@@ -140,8 +140,8 @@ class DocumentDecoratorTest extends DecoratorBase {
   }
 
   public function testGetAvailableActions() {
-    $laModel = $this->container->get('test.logauth.service.logauth_model');
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $laModel = static::$container->get('test.logauth.service.logauth_model');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $document = $documentDecorator->getDocument();
     $available_actions_decorator = $documentDecorator->getAvailableActions('anon.');

@@ -13,37 +13,37 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Mi
 class RepositoryDecoratorTest extends DecoratorBase {
 
   public function testClass() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $this->assertTrue($repositoryDecorator instanceof RepositoryDecorator);
   }
 
   public function testGetClassName() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $class = $repositoryDecorator->getClassName();
     $this->assertEquals('Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocument', $class);
   }
 
   public function testSetObjectManager() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
-    $repositoryDecorator->setDocumentManager($this->container->get('test.doctrine.odm.mongodb.document_manager'));
+    $repositoryDecorator = static::$container->get('repository.test_document');
+    $repositoryDecorator->setDocumentManager(static::$container->get('test.doctrine.odm.mongodb.document_manager'));
     $dm = $repositoryDecorator->getDocumentManager();
     $this->assertTrue($dm instanceof DocumentManager);
   }
 
   public function testGetObjectManager() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $em = $repositoryDecorator->getDocumentManager();
     $this->assertTrue($em instanceof DocumentManager);
   }
 
   public function testGetRepository() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $repository = $repositoryDecorator->getRepository();
     $this->assertTrue($repository instanceof TestDocumentRepository);
   }
 
   public function testFind() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -52,7 +52,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testFindEvent() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -61,7 +61,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testFindAll() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->save();
     $result = $repositoryDecorator->findAll();
@@ -69,7 +69,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testFindAllEvent() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->save();
     $result = $repositoryDecorator->findAll();
@@ -78,7 +78,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testFindBy() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -87,7 +87,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testFindByEvent() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -97,7 +97,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testFindOneBy() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -106,7 +106,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testFindOneByEvent() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -115,7 +115,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testMatching() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -127,7 +127,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testMatchingEvent() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -141,7 +141,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testCall() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -150,7 +150,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testCallEvent() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -159,7 +159,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testCreate() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documentDecorator = $repositoryDecorator->create();
     $documentDecorator->setField1('test');
     $documentDecorator->save();
@@ -168,7 +168,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testCreateWithParams() {
-    $repositoryDecorator = $this->container->get('repository.test_document_constructor_params');
+    $repositoryDecorator = static::$container->get('repository.test_document_constructor_params');
     $documentDecorator = $repositoryDecorator->create('test1', 'test2', 'test3');
     $documentDecorator->save();
     $result = $repositoryDecorator->findBy(array('field1' => 'test1', 'field2' => 'test2', 'field3' => 'test3'));
@@ -179,13 +179,13 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testCreateAbort() {
-    $repositoryDecorator = $this->container->get('repository.test_document_abort_create');
+    $repositoryDecorator = static::$container->get('repository.test_document_abort_create');
     $documentDecorator = $repositoryDecorator->create();
     $this->assertNull($documentDecorator);
   }
 
   public function testWrapDocumentsSingleDocument() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $document = new TestDocument();
     $documentDecorators = $repositoryDecorator->wrapDocuments($document);
     $this->assertEquals(1, count($documentDecorators));
@@ -195,7 +195,7 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testWrapDocuments() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $documents = array(
       new TestDocument(),
       new TestDocument(),
@@ -208,14 +208,14 @@ class RepositoryDecoratorTest extends DecoratorBase {
   }
 
   public function testWrapDocumentWrongDocumentType() {
-    $repositoryDecorator = $this->container->get('repository.test_document_constructor_params');
+    $repositoryDecorator = static::$container->get('repository.test_document_constructor_params');
     $document = new TestDocument();
     $this->assertNull($repositoryDecorator->wrapDocument(null));
     $this->assertSame($document, $repositoryDecorator->wrapDocument($document));
   }
 
   public function testWrapDocument() {
-    $repositoryDecorator = $this->container->get('repository.test_document');
+    $repositoryDecorator = static::$container->get('repository.test_document');
     $document = new TestDocument();
     $documentDecorator = $repositoryDecorator->wrapDocument($document);
     $this->assertTrue($documentDecorator instanceof DocumentDecorator);

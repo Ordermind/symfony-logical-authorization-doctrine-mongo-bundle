@@ -119,7 +119,7 @@ class TestDocumentHasAccountNoInterface
      *
      * @return \Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface
      */
-    public function getAuthor() {
+    public function getAuthor(): ?UserInterface {
         return $this->author;
     }
 
