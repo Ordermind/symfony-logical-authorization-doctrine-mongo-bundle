@@ -45,7 +45,7 @@ class BeforeMethodCallEvent extends Event implements BeforeMethodCallEventInterf
   /**
    * @internal
    *
-   * @param object                                             $document     The document on which the call is made
+   * @param object                                            $document  The document on which the call is made
    * @param bool                                              $isNew     A flag for the persistence status of the document
    * @param Doctrine\Common\Persistence\Mapping\ClassMetadata $metadata  The metadata for the document
    * @param string                                            $method    The method for the call

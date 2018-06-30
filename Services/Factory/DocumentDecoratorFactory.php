@@ -25,8 +25,9 @@ class DocumentDecoratorFactory implements DocumentDecoratorFactoryInterface
    *
    * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationModel service
    */
-    public function __construct(LogicalAuthorizationModelInterface $laModel) {
-      $this->laModel = $laModel;
+    public function __construct(LogicalAuthorizationModelInterface $laModel)
+    {
+        $this->laModel = $laModel;
     }
 
   /**

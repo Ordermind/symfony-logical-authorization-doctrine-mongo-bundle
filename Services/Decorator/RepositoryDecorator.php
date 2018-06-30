@@ -53,11 +53,11 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
   /**
    * @internal
    *
-   * @param Doctrine\ODM\MongoDB\DocumentManager                                    $dm                  The document manager to use in this decorator
+   * @param Doctrine\ODM\MongoDB\DocumentManager                                                                 $dm                       The document manager to use in this decorator
    * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactoryInterface $documentDecoratorFactory The factory to use for creating new document decorators
-   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                    $dispatcher          The event dispatcher to use in this decorator
-   * @param Ordermind\LogicalAuthorizationBundle\Services\HelperInterface $helper LogicalAuthorizaton helper service
-   * @param string                                                                        $class               The document class to use in this decorator
+   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                                           $dispatcher               The event dispatcher to use in this decorator
+   * @param Ordermind\LogicalAuthorizationBundle\Services\HelperInterface                                        $helper                   LogicalAuthorizaton helper service
+   * @param string                                                                                               $class                    The document class to use in this decorator
    */
     public function __construct(DocumentManager $dm, DocumentDecoratorFactoryInterface $documentDecoratorFactory, EventDispatcherInterface $dispatcher, HelperInterface $helper, string $class)
     {
@@ -214,7 +214,9 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
     public function wrapDocuments($documents): ?array
     {
         if (!is_array($documents)) {
-            if(is_null($documents)) return $documents;
+            if (is_null($documents)) {
+                return $documents;
+            }
 
             return [$this->wrapDocument($documents)];
         }
@@ -257,26 +259,44 @@ class RepositoryDecorator implements RepositoryDecoratorInterface
         $dispatcher->dispatch('logauth_doctrine_mongo.event.repository_decorator.unknown_result', $event);
         $result = $event->getResult();
 
-        if(!is_array($result)) {
-          return $this->wrapDocument($result);
+        if (!is_array($result)) {
+            return $this->wrapDocument($result);
         }
 
         return $this->wrapDocuments($result);
     }
 
+    /**
+     * @internal
+     *
+     * @return Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
     protected function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;
     }
 
-    protected function setAuthor(DocumentDecoratorInterface $documentDecorator)
+    /**
+     * @internal
+     *
+     * @param Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface $documentDecorator
+     *
+     * @return Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Decorator\DocumentDecoratorInterface
+     */
+    protected function setAuthor(DocumentDecoratorInterface $documentDecorator): DocumentDecoratorInterface
     {
         $document = $documentDecorator->getDocument();
-        if(!($document instanceof ModelInterface)) return $documentDecorator;
+        if (!($document instanceof ModelInterface)) {
+            return $documentDecorator;
+        }
 
         $author = $this->helper->getCurrentUser();
-        if(!($author instanceof UserInterface)) return $documentDecorator;
+        if (!($author instanceof UserInterface)) {
+            return $documentDecorator;
+        }
 
         $document->setAuthor($author);
+
+        return $documentDecorator;
     }
 }

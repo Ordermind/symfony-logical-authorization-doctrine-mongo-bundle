@@ -5,181 +5,225 @@ namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\EventListener;
 
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Annotation\Doctrine\Permissions;
 
 use Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface;
 
-class AddPermissions {
+/**
+ * Event listener for adding Doctrine ODM document permissions
+ */
+class AddPermissions
+{
   /**
    * @var Doctrine\Common\Persistence\ManagerRegistry
    */
-  protected $managerRegistry;
+    protected $managerRegistry;
 
   /**
    * @var string
    */
-  protected $annotationDriverClass;
+    protected $annotationDriverClass;
 
   /**
    * @var string
    */
-  protected $xmlDriverClass;
+    protected $xmlDriverClass;
 
   /**
    * @var string
    */
-  protected $ymlDriverClass;
+    protected $ymlDriverClass;
 
   /**
    * @internal
    *
-   * @param Doctrine\Common\Persistence\ManagerRegistry $managerRegistry ManagerRegistry service
-   * @param string $annotationDriverClass The class for the annotation driver
-   * @param string $xmlDriverClass The class for the XML driver
-   * @param string $ymlDriverClass The class for the Yaml driver
+   * @param Doctrine\Common\Persistence\ManagerRegistry $managerRegistry       ManagerRegistry service
+   * @param string                                      $annotationDriverClass The class for the annotation driver
+   * @param string                                      $xmlDriverClass        The class for the XML driver
+   * @param string                                      $ymlDriverClass        The class for the Yaml driver
    */
-  public function __construct(ManagerRegistry $managerRegistry, string $annotationDriverClass, string $xmlDriverClass, string $ymlDriverClass) {
-    $this->managerRegistry = $managerRegistry;
-    $this->annotationDriverClass = $annotationDriverClass;
-    $this->xmlDriverClass = $xmlDriverClass;
-    $this->ymlDriverClass = $ymlDriverClass;
-  }
+    public function __construct(ManagerRegistry $managerRegistry, string $annotationDriverClass, string $xmlDriverClass, string $ymlDriverClass)
+    {
+        $this->managerRegistry = $managerRegistry;
+        $this->annotationDriverClass = $annotationDriverClass;
+        $this->xmlDriverClass = $xmlDriverClass;
+        $this->ymlDriverClass = $ymlDriverClass;
+    }
 
   /**
    * Event listener callback for adding permissions to the tree
+   *
+   * @param Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface $event
    */
-  public function onAddPermissions(AddPermissionsEventInterface $event) {
-    $object_managers = $this->managerRegistry->getManagers();
-    foreach($object_managers as $dm) {
-      $metadataDriverImplementation = $dm->getConfiguration()->getMetadataDriverImpl();
-      $drivers = $metadataDriverImplementation->getDrivers();
-      foreach($drivers as $driver) {
-        $driver_class = get_class($driver);
-        if($driver_class === $this->annotationDriverClass) {
-          $this->addAnnotationPermissions($event, $driver, $dm);
+    public function onAddPermissions(AddPermissionsEventInterface $event)
+    {
+        $documentManagers = $this->managerRegistry->getManagers();
+        foreach ($documentManagers as $dm) {
+            $metadataDriverImplementation = $dm->getConfiguration()->getMetadataDriverImpl();
+            $drivers = $metadataDriverImplementation->getDrivers();
+            foreach ($drivers as $driver) {
+                $driverClass = get_class($driver);
+                if ($driverClass === $this->annotationDriverClass) {
+                    $this->addAnnotationPermissions($event, $driver, $dm);
+                } elseif ($driverClass === $this->xmlDriverClass) {
+                    $this->addXMLPermissions($event, $driver);
+                } elseif ($driverClass === $this->ymlDriverClass) {
+                    $this->addYMLPermissions($event, $driver);
+                }
+            }
         }
-        elseif($driver_class === $this->xmlDriverClass) {
-          $this->addXMLPermissions($event, $driver);
-        }
-        elseif($driver_class === $this->ymlDriverClass) {
-          $this->addYMLPermissions($event, $driver);
-        }
-      }
-    }
-  }
-
-  protected function addAnnotationPermissions(AddPermissionsEventInterface $event, MappingDriver $driver, ObjectManager $dm) {
-    $classes = $driver->getAllClassNames();
-    $annotationReader = $driver->getReader();
-    $permissionTree = [];
-    foreach($classes as $class) {
-      $reflectionClass = new \ReflectionClass($class);
-      $classAnnotations = $annotationReader->getClassAnnotations($reflectionClass);
-      foreach ($classAnnotations as $annotation) {
-        if ($annotation instanceof Permissions) {
-          if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-          $permissionTree['models'][$class] = $annotation->getPermissions();
-        }
-      }
-      foreach($reflectionClass->getProperties() as $property) {
-        $field_name = $property->getName();
-        $propertyAnnotations = $annotationReader->getPropertyAnnotations($property);
-        foreach ($propertyAnnotations as $annotation) {
-          if ($annotation instanceof Permissions) {
-            if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-            $permissionTree['models'] += [$class => ['fields' => []]];
-            $permissionTree['models'][$class]['fields'][$field_name] = $annotation->getPermissions();
-          }
-        }
-      }
-    }
-    $event->insertTree($permissionTree);
-  }
-
-  protected function addXMLPermissions(AddPermissionsEventInterface $event, MappingDriver $driver) {
-    $classes = $driver->getAllClassNames();
-    $permissionTree = [];
-    foreach($classes as $class) {
-      $xmlRoot = $driver->getElement($class);
-      // Parse XML structure in $element
-      if(isset($xmlRoot->permissions)) {
-        if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-        $permissionTree['models'][$class] = json_decode(json_encode($xmlRoot->permissions), TRUE);
-      }
-      $reflectionClass = new \ReflectionClass($class);
-      foreach($reflectionClass->getProperties() as $property) {
-        $field_name = $property->getName();
-        if($result = $xmlRoot->xpath("*[@name='$field_name' or @field='$field_name']")) {
-          $field = $result[0];
-          if(isset($field->permissions)) {
-            if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-            $permissionTree['models'] += [$class => ['fields' => []]];
-            $permissionTree['models'][$class]['fields'][$field_name] = json_decode(json_encode($field->permissions), TRUE);
-          }
-        }
-      }
-    }
-    $permissionTree = $this->massagePermissionsRecursive($permissionTree);
-    $event->insertTree($permissionTree);
-  }
-
-  protected function addYMLPermissions(AddPermissionsEventInterface $event, MappingDriver $driver) {
-    $classes = $driver->getAllClassNames();
-    $permissionTree = [];
-    foreach($classes as $class) {
-      $mapping = $driver->getElement($class);
-      if(isset($mapping['permissions'])) {
-        if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-        $permissionTree['models'][$class] = $mapping['permissions'];
-      }
-      foreach($mapping as $key => $data) {
-        if(!is_array($data)) continue;
-        foreach($data as $field_name => $field_mapping) {
-          if(isset($field_mapping['permissions'])) {
-            if(!isset($permissionTree['models'])) $permissionTree['models'] = [];
-            $permissionTree['models'] += [$class => ['fields' => []]];
-            $permissionTree['models'][$class]['fields'][$field_name] = $field_mapping['permissions'];
-          }
-        }
-      }
-    }
-    $permissionTree = $this->massagePermissionsRecursive($permissionTree);
-    $event->insertTree($permissionTree);
-  }
-
-  protected function massagePermissionsRecursive($permissions): array {
-    $massaged_permissions = [];
-    foreach($permissions as $key => $value) {
-      if(is_array($value)) {
-        $parsed_value = $this->massagePermissionsRecursive($value);
-      }
-      elseif(is_string($value)) {
-        $lowercase_value = strtolower($value);
-        if($lowercase_value === 'true') {
-          $parsed_value = TRUE;
-        }
-        elseif($lowercase_value === 'false') {
-          $parsed_value = FALSE;
-        }
-        else {
-          $parsed_value = $value;
-        }
-      }
-      else {
-        $parsed_value = $value;
-      }
-
-      if($key === 'value') {
-        $massaged_permissions[] = $parsed_value;
-      }
-      else {
-        $massaged_permissions[$key] = $parsed_value;
-      }
     }
 
-    return $massaged_permissions;
-  }
+    /**
+     * @internal
+     *
+     * @param Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface $event
+     * @param Doctrine\Common\Persistence\Mapping\Driver\MappingDriver                $driver
+     * @param Doctrine\ODM\MongoDB\DocumentManager                                    $dm
+     */
+    protected function addAnnotationPermissions(AddPermissionsEventInterface $event, MappingDriver $driver, DocumentManager $dm)
+    {
+        $classes = $driver->getAllClassNames();
+        $annotationReader = $driver->getReader();
+        $permissionTree = [];
+        foreach ($classes as $class) {
+            $reflectionClass = new \ReflectionClass($class);
+            $classAnnotations = $annotationReader->getClassAnnotations($reflectionClass);
+            foreach ($classAnnotations as $annotation) {
+                if ($annotation instanceof Permissions) {
+                    if (!isset($permissionTree['models'])) {
+                        $permissionTree['models'] = [];
+                    }
+                    $permissionTree['models'][$class] = $annotation->getPermissions();
+                }
+            }
+            foreach ($reflectionClass->getProperties() as $property) {
+                $fieldName = $property->getName();
+                $propertyAnnotations = $annotationReader->getPropertyAnnotations($property);
+                foreach ($propertyAnnotations as $annotation) {
+                    if ($annotation instanceof Permissions) {
+                        if (!isset($permissionTree['models'])) {
+                            $permissionTree['models'] = [];
+                        }
+                        $permissionTree['models'] += [$class => ['fields' => []]];
+                        $permissionTree['models'][$class]['fields'][$fieldName] = $annotation->getPermissions();
+                    }
+                }
+            }
+        }
+        $event->insertTree($permissionTree);
+    }
+
+    /**
+     * @internal
+     *
+     * @param Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface $event
+     * @param Doctrine\Common\Persistence\Mapping\Driver\MappingDriver                $driver
+     */
+    protected function addXMLPermissions(AddPermissionsEventInterface $event, MappingDriver $driver)
+    {
+        $classes = $driver->getAllClassNames();
+        $permissionTree = [];
+        foreach ($classes as $class) {
+            $xmlRoot = $driver->getElement($class);
+          // Parse XML structure in $element
+            if (isset($xmlRoot->permissions)) {
+                if (!isset($permissionTree['models'])) {
+                    $permissionTree['models'] = [];
+                }
+                $permissionTree['models'][$class] = json_decode(json_encode($xmlRoot->permissions), true);
+            }
+            $reflectionClass = new \ReflectionClass($class);
+            foreach ($reflectionClass->getProperties() as $property) {
+                $fieldName = $property->getName();
+                if ($result = $xmlRoot->xpath("*[@name='$fieldName' or @field='$fieldName']")) {
+                    $field = $result[0];
+                    if (isset($field->permissions)) {
+                        if (!isset($permissionTree['models'])) {
+                            $permissionTree['models'] = [];
+                        }
+                        $permissionTree['models'] += [$class => ['fields' => []]];
+                        $permissionTree['models'][$class]['fields'][$fieldName] = json_decode(json_encode($field->permissions), true);
+                    }
+                }
+            }
+        }
+        $permissionTree = $this->massagePermissionsRecursive($permissionTree);
+        $event->insertTree($permissionTree);
+    }
+
+    /**
+     * @internal
+     *
+     * @param Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface $event
+     * @param Doctrine\Common\Persistence\Mapping\Driver\MappingDriver                $driver
+     */
+    protected function addYMLPermissions(AddPermissionsEventInterface $event, MappingDriver $driver)
+    {
+        $classes = $driver->getAllClassNames();
+        $permissionTree = [];
+        foreach ($classes as $class) {
+            $mapping = $driver->getElement($class);
+            if (isset($mapping['permissions'])) {
+                if (!isset($permissionTree['models'])) {
+                    $permissionTree['models'] = [];
+                }
+                $permissionTree['models'][$class] = $mapping['permissions'];
+            }
+            foreach ($mapping as $key => $data) {
+                if (!is_array($data)) {
+                    continue;
+                }
+                foreach ($data as $fieldName => $fieldMapping) {
+                    if (isset($fieldMapping['permissions'])) {
+                        if (!isset($permissionTree['models'])) {
+                            $permissionTree['models'] = [];
+                        }
+                        $permissionTree['models'] += [$class => ['fields' => []]];
+                        $permissionTree['models'][$class]['fields'][$fieldName] = $fieldMapping['permissions'];
+                    }
+                }
+            }
+        }
+        $permissionTree = $this->massagePermissionsRecursive($permissionTree);
+        $event->insertTree($permissionTree);
+    }
+
+    /**
+     * @internal
+     *
+     * @param array $permissions
+     *
+     * @return array
+     */
+    protected function massagePermissionsRecursive(array $permissions): array
+    {
+        $massagedPermissions = [];
+        foreach ($permissions as $key => $value) {
+            if (is_array($value)) {
+                $parsedValue = $this->massagePermissionsRecursive($value);
+            } elseif (is_string($value)) {
+                $lowercaseValue = strtolower($value);
+                if ('true' === $lowercaseValue) {
+                    $parsedValue = true;
+                } elseif ('false' === $lowercaseValue) {
+                    $parsedValue = false;
+                } else {
+                    $parsedValue = $value;
+                }
+            } else {
+                $parsedValue = $value;
+            }
+
+            if ('value' === $key) {
+                $massagedPermissions[] = $parsedValue;
+            } else {
+                $massagedPermissions[$key] = $parsedValue;
+            }
+        }
+
+        return $massagedPermissions;
+    }
 }
-

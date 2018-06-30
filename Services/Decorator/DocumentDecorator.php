@@ -40,10 +40,10 @@ class DocumentDecorator implements DocumentDecoratorInterface
   /**
    * @internal
    *
-   * @param Doctrine\Common\Persistence\ObjectManager                  $dm         The document manager to use in this decorator
-   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher The event dispatcher to use in this decorator
-   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationModel service
-   * @param object                                                      $document      The document to wrap in this decorator
+   * @param Doctrine\Common\Persistence\ObjectManager                                        $dm         The document manager to use in this decorator
+   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                       $dispatcher The event dispatcher to use in this decorator
+   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel    LogicalAuthorizationModel service
+   * @param object                                                                           $document   The document to wrap in this decorator
    */
     public function __construct(ObjectManager $dm, EventDispatcherInterface $dispatcher, LogicalAuthorizationModelInterface $laModel, $document)
     {
@@ -90,9 +90,9 @@ class DocumentDecorator implements DocumentDecoratorInterface
   /**
    * {@inheritdoc}
    */
-    public function getAvailableActions($user = null, array $document_actions = ['create', 'read', 'update', 'delete'], array $field_actions = ['get', 'set']): array
+    public function getAvailableActions($user = null, array $documentActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set']): array
     {
-        return $this->laModel->getAvailableActions($this->getDocument(), $document_actions, $field_actions, $user);
+        return $this->laModel->getAvailableActions($this->getDocument(), $documentActions, $fieldActions, $user);
     }
 
   /**
@@ -178,6 +178,11 @@ class DocumentDecorator implements DocumentDecoratorInterface
         return $result;
     }
 
+    /**
+     * @internal
+     *
+     * @return Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
     protected function getDispatcher(): EventDispatcherInterface
     {
         return $this->dispatcher;

@@ -41,13 +41,13 @@ interface DocumentDecoratorInterface extends ModelDecoratorInterface
    *
    * This method is primarily meant to facilitate client-side authorization by providing a map of all available actions on a document. The map has the structure ['document_action1' => 'document_action1', 'document_action3' => 'document_action3', 'fields' => ['field_name1' => ['field_action1' => 'field_action1']]].
    *
-   * @param object|string $user (optional) Either a user object or a string to signify an anonymous user. If no user is supplied, the current user will be used.
-   * @param array $document_actions (optional) A list of document actions that should be evaluated. Default actions are the standard CRUD actions.
-   * @param array $field_actions (optional) A list of field actions that should be evaluated. Default actions are 'get' and 'set'.
+   * @param object|string $user            (optional) Either a user object or a string to signify an anonymous user. If no user is supplied, the current user will be used.
+   * @param array         $documentActions (optional) A list of document actions that should be evaluated. Default actions are the standard CRUD actions.
+   * @param array         $fieldActions    (optional) A list of field actions that should be evaluated. Default actions are 'get' and 'set'.
    *
    * @return array A map of available actions
    */
-    public function getAvailableActions($user = null, array $document_actions = ['create', 'read', 'update', 'delete'], array $field_actions = ['get', 'set']);
+    public function getAvailableActions($user = null, array $documentActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set']);
 
   /**
    * Returns TRUE if the document is new. Returns FALSE if the document is persisted.

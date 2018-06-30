@@ -30,7 +30,7 @@ class BeforeSaveEvent extends Event implements BeforeSaveEventInterface
    * @internal
    *
    * @param object $document The document that is about to be saved
-   * @param bool  $isNew A flag for the persistence status of the document
+   * @param bool   $isNew    A flag for the persistence status of the document
    */
     public function __construct($document, bool $isNew)
     {
