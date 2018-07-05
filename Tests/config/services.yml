@@ -11,6 +11,12 @@ services:
         class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Services\TestDocumentOperations
         public: true
 
+    mongodb_param_converter:
+        class: Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter
+        arguments: ['@doctrine_mongodb']
+        tags:
+            - { name: request.param_converter }
+
     repository_decorator_event_subscriber:
         class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\EventListener\RepositoryDecoratorEventSubscriber
         tags:
