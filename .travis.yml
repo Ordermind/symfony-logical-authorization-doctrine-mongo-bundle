@@ -21,7 +21,7 @@ services:
   #- if [ "$TEST_SUITE" == "ODM" ]; then composer require doctrine/mongodb-odm-bundle:^3.0 --no-update; export PHPUNIT_FILE=./phpunit_odm.xml.dist; fi;
   #- if [ "$TRAVIS_PHP_VERSION" != "hhvm" ] && [ "$TEST_SUITE" == "ODM" ]; then phpenv config-add travis-php.ini; fi;
 before_install:
-  - pecl -q install mongo && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+  - pecl install mongodb && echo "extension=mongodb.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 install: composer install --prefer-dist
 script: phpunit -c ./phpunit.xml.dist
 notifications:
