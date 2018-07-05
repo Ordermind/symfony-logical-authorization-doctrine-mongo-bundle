@@ -1,4 +1,7 @@
 language: php
+env:
+    global:
+        - MIN_PHP=7.1.3
 #matrix:
   #include:
     #- php: 7.1
@@ -18,6 +21,8 @@ services:
   #- if [ "$TEST_SUITE" == "ODM" ]; then composer require doctrine/mongodb-odm-bundle:^3.0 --no-update; export PHPUNIT_FILE=./phpunit_odm.xml.dist; fi;
   #- if [ "$TRAVIS_PHP_VERSION" != "hhvm" ] && [ "$TEST_SUITE" == "ODM" ]; then phpenv config-add travis-php.ini; fi;
 install: composer install --prefer-dist
+before_script:
+  - pecl -q install mongo && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
 script: phpunit -c ./phpunit.xml.dist
 notifications:
   email: false
