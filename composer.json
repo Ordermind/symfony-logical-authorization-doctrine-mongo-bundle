@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "ordermind/logical-authorization-bundle": "dev-master",
+        "ordermind/logical-authorization-bundle": "^0.17.0",
         "doctrine/mongodb-odm-bundle": "^3.0",
         "doctrine/mongodb-odm": "^1.0",
         "doctrine/mongodb": "^1.0",
