@@ -12,9 +12,11 @@ use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\RepositoryDecoratorE
 use Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\TestDocumentAbortCreate;
 use Ordermind\LogicalAuthorizationBundle\Interfaces\UserInterface;
 
-class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface {
-  public static function getSubscribedEvents() {
-    return array(
+class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents()
+    {
+        return array(
       'logauth_doctrine_mongo.event.repository_decorator.unknown_result' => array(
         array('onUnknownResult'),
       ),
@@ -31,59 +33,71 @@ class RepositoryDecoratorEventSubscriber implements EventSubscriberInterface {
         array('onBeforeCreate'),
       ),
     );
-  }
-
-  public function onUnknownResult(UnknownResultEvent $event) {
-    $this->onResult($event);
-  }
-
-  public function onSingleDocumentResult(SingleDocumentResultEvent $event) {
-    $this->onResult($event);
-  }
-
-  public function onMultipleDocumentResult(MultipleDocumentResultEvent $event) {
-    $this->onResult($event);
-  }
-
-  public function onLazyDocumentCollectionResult(LazyDocumentCollectionResultEvent $event) {
-    $repository = $event->getRepository();
-    $result = $event->getResult();
-    $class = $repository->getClassName();
-    foreach($result as $i => $item) {
-      $result[$i] = $this->processDocument($item, $class);
-    }
-  }
-
-  public function onBeforeCreate(BeforeCreateEvent $event) {
-    $class = $event->getDocumentClass();
-    if($class === 'Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortCreate') {
-      $event->setAbort(true);
-    }
-  }
-
-  protected function onResult(AbstractResultEvent $event) {
-    $repository = $event->getRepository();
-    $result = $event->getResult();
-    $class = $repository->getClassName();
-    $result = $this->processDocuments($result, $class);
-    $event->setResult($result);
-  }
-
-  protected function processDocuments($documents, $class) {
-    if(!is_array($documents)) return $this->processDocument($documents, $class);
-    foreach($documents as $i => $document) {
-      $documents[$i] = $this->processDocument($document, $class);
     }
 
-    return $documents;
-  }
-
-  protected function processDocument($document, $class) {
-    if(!is_object($document) || get_class($document) !== $class) return $document;
-    if(!($document instanceof UserInterface)) {
-      $document->setField2('hej');
+    public function onUnknownResult(UnknownResultEvent $event)
+    {
+        $this->onResult($event);
     }
 
-    return $document;
-  }
+    public function onSingleDocumentResult(SingleDocumentResultEvent $event)
+    {
+        $this->onResult($event);
+    }
+
+    public function onMultipleDocumentResult(MultipleDocumentResultEvent $event)
+    {
+        $this->onResult($event);
+    }
+
+    public function onLazyDocumentCollectionResult(LazyDocumentCollectionResultEvent $event)
+    {
+        $repository = $event->getRepository();
+        $result = $event->getResult();
+        $class = $repository->getClassName();
+        foreach ($result as $i => $item) {
+            $result[$i] = $this->processDocument($item, $class);
+        }
+    }
+
+    public function onBeforeCreate(BeforeCreateEvent $event)
+    {
+        $class = $event->getDocumentClass();
+        if ($class === 'Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Document\Misc\TestDocumentAbortCreate') {
+            $event->setAbort(true);
+        }
+    }
+
+    protected function onResult(AbstractResultEvent $event)
+    {
+        $repository = $event->getRepository();
+        $result = $event->getResult();
+        $class = $repository->getClassName();
+        $result = $this->processDocuments($result, $class);
+        $event->setResult($result);
+    }
+
+    protected function processDocuments($documents, $class)
+    {
+        if (!is_array($documents)) {
+            return $this->processDocument($documents, $class);
+        }
+        foreach ($documents as $i => $document) {
+            $documents[$i] = $this->processDocument($document, $class);
+        }
+
+        return $documents;
+    }
+
+    protected function processDocument($document, $class)
+    {
+        if (!is_object($document) || get_class($document) !== $class) {
+            return $document;
+        }
+        if (!($document instanceof UserInterface)) {
+            $document->setField2('hej');
+        }
+
+        return $document;
+    }
 }

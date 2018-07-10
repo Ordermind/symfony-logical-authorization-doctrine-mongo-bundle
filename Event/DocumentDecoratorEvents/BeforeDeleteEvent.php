@@ -16,55 +16,55 @@ class BeforeDeleteEvent extends Event implements BeforeDeleteEventInterface
    */
     protected $document;
 
-  /**
-   * @var bool
-   */
+    /**
+     * @var bool
+     */
     protected $isNew;
 
-  /**
-   * @var bool
-   */
+    /**
+     * @var bool
+     */
     protected $abort = false;
 
-  /**
-   * @internal
-   *
-   * @param object $document The document that is about to be deleted
-   * @param bool   $isNew    A flag for the persistence status of the document
-   */
+    /**
+     * @internal
+     *
+     * @param object $document The document that is about to be deleted
+     * @param bool   $isNew    A flag for the persistence status of the document
+     */
     public function __construct($document, bool $isNew)
     {
         $this->document = $document;
         $this->isNew = $isNew;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getDocument()
     {
         return $this->document;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function isNew(): bool
     {
         return $this->isNew;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getAbort(): bool
     {
         return $this->abort;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setAbort(bool $abort)
     {
         $this->abort = $abort;

@@ -20,19 +20,19 @@ class DocumentDecoratorFactory implements DocumentDecoratorFactoryInterface
    */
     protected $laModel;
 
-  /**
-   * @internal
-   *
-   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationModel service
-   */
+    /**
+     * @internal
+     *
+     * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel LogicalAuthorizationModel service
+     */
     public function __construct(LogicalAuthorizationModelInterface $laModel)
     {
         $this->laModel = $laModel;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentDecorator(DocumentManager $dm, EventDispatcherInterface $dispatcher, $document): DocumentDecoratorInterface
     {
         return new DocumentDecorator($dm, $dispatcher, $this->laModel, $document);

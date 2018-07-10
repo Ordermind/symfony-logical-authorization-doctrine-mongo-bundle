@@ -122,5 +122,3 @@ class TestDocumentAbortSave
         return $this->field3;
     }
 }
-
-

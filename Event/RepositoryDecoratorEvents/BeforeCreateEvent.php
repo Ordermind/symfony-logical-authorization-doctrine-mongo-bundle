@@ -16,40 +16,40 @@ class BeforeCreateEvent extends Event implements BeforeCreateEventInterface
    */
     protected $documentClass;
 
-  /**
-   * @var bool
-   */
+    /**
+     * @var bool
+     */
     protected $abort = false;
 
-  /**
-   * @internal
-   *
-   * @param string $documentClass The class of the document that is about to be created
-   */
+    /**
+     * @internal
+     *
+     * @param string $documentClass The class of the document that is about to be created
+     */
     public function __construct(string $documentClass)
     {
         $this->documentClass = $documentClass;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentClass(): string
     {
         return $this->documentClass;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getAbort(): bool
     {
         return $this->abort;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setAbort(bool $abort)
     {
         $this->abort = $abort;

@@ -122,4 +122,3 @@ class TestDocument
         return $this->field3;
     }
 }
-

@@ -16,19 +16,19 @@ interface BeforeCreateEventInterface
    */
     public function getDocumentClass(): string;
 
-  /**
-   * Gets the abort flag value for this creation
-   *
-   * @return bool
-   */
+    /**
+     * Gets the abort flag value for this creation
+     *
+     * @return bool
+     */
     public function getAbort(): bool;
 
-  /**
-   * Sets the abort flag value for this creation
-   *
-   * If the abort flag is set to true the document won't be created.
-   *
-   * @param bool $abort The new value for the abort flag
-   */
+    /**
+     * Sets the abort flag value for this creation
+     *
+     * If the abort flag is set to true the document won't be created.
+     *
+     * @param bool $abort The new value for the abort flag
+     */
     public function setAbort(bool $abort);
 }

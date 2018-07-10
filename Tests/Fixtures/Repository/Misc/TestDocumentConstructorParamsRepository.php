@@ -10,5 +10,4 @@ namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repos
  */
 class TestDocumentConstructorParamsRepository extends \Doctrine\ODM\MongoDB\DocumentRepository
 {
-
 }

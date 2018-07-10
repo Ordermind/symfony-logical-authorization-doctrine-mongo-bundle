@@ -16,34 +16,34 @@ use Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface;
  */
 class AddPermissions
 {
-  /**
-   * @var Doctrine\Common\Persistence\ManagerRegistry
-   */
+    /**
+     * @var Doctrine\Common\Persistence\ManagerRegistry
+     */
     protected $managerRegistry;
 
-  /**
-   * @var string
-   */
+    /**
+     * @var string
+     */
     protected $annotationDriverClass;
 
-  /**
-   * @var string
-   */
+    /**
+     * @var string
+     */
     protected $xmlDriverClass;
 
-  /**
-   * @var string
-   */
+    /**
+     * @var string
+     */
     protected $ymlDriverClass;
 
-  /**
-   * @internal
-   *
-   * @param Doctrine\Common\Persistence\ManagerRegistry $managerRegistry       ManagerRegistry service
-   * @param string                                      $annotationDriverClass The class for the annotation driver
-   * @param string                                      $xmlDriverClass        The class for the XML driver
-   * @param string                                      $ymlDriverClass        The class for the Yaml driver
-   */
+    /**
+     * @internal
+     *
+     * @param Doctrine\Common\Persistence\ManagerRegistry $managerRegistry       ManagerRegistry service
+     * @param string                                      $annotationDriverClass The class for the annotation driver
+     * @param string                                      $xmlDriverClass        The class for the XML driver
+     * @param string                                      $ymlDriverClass        The class for the Yaml driver
+     */
     public function __construct(ManagerRegistry $managerRegistry, string $annotationDriverClass, string $xmlDriverClass, string $ymlDriverClass)
     {
         $this->managerRegistry = $managerRegistry;
@@ -52,11 +52,11 @@ class AddPermissions
         $this->ymlDriverClass = $ymlDriverClass;
     }
 
-  /**
-   * Event listener callback for adding permissions to the tree
-   *
-   * @param Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface $event
-   */
+    /**
+     * Event listener callback for adding permissions to the tree
+     *
+     * @param Ordermind\LogicalAuthorizationBundle\Event\AddPermissionsEventInterface $event
+     */
     public function onAddPermissions(AddPermissionsEventInterface $event)
     {
         $documentManagers = $this->managerRegistry->getManagers();
@@ -128,7 +128,7 @@ class AddPermissions
         $permissionTree = [];
         foreach ($classes as $class) {
             $xmlRoot = $driver->getElement($class);
-          // Parse XML structure in $element
+            // Parse XML structure in $element
             if (isset($xmlRoot->permissions)) {
                 if (!isset($permissionTree['models'])) {
                     $permissionTree['models'] = [];

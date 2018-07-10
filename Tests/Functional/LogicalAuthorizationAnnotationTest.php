@@ -4,11 +4,12 @@ namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Functional;
 
 class LogicalAuthorizationAnnotationTest extends LogicalAuthorizationBase
 {
-  /**
-   * This method is run before each public test method
-   */
-  protected function setUp() {
-    $this->load_services = array(
+    /**
+     * This method is run before each public test method
+     */
+    protected function setUp()
+    {
+        $this->load_services = array(
       'testDocumentRoleAuthorRepositoryDecorator' => 'repository.test_document_roleauthor_annotation',
       'testDocumentHasAccountNoInterfaceRepositoryDecorator' => 'repository.test_document_hasaccount_annotation',
       'testDocumentNoBypassRepositoryDecorator' => 'repository.test_document_nobypass_annotation',
@@ -16,6 +17,6 @@ class LogicalAuthorizationAnnotationTest extends LogicalAuthorizationBase
       'testDocumentVariousPermissionsRepositoryDecorator' => 'repository.test_document_various_permissions_annotation',
     );
 
-    parent::setUp();
-  }
+        parent::setUp();
+    }
 }

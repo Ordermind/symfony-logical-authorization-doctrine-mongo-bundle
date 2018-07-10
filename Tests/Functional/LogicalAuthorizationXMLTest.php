@@ -4,11 +4,12 @@ namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Functional;
 
 class LogicalAuthorizationXMLTest extends LogicalAuthorizationBase
 {
-  /**
-   * This method is run before each public test method
-   */
-  protected function setUp() {
-    $this->load_services = array(
+    /**
+     * This method is run before each public test method
+     */
+    protected function setUp()
+    {
+        $this->load_services = array(
       'testDocumentRoleAuthorRepositoryDecorator' => 'repository.test_document_roleauthor_xml',
       'testDocumentHasAccountNoInterfaceRepositoryDecorator' => 'repository.test_document_hasaccount_xml',
       'testDocumentNoBypassRepositoryDecorator' => 'repository.test_document_nobypass_xml',
@@ -16,6 +17,6 @@ class LogicalAuthorizationXMLTest extends LogicalAuthorizationBase
       'testDocumentVariousPermissionsRepositoryDecorator' => 'repository.test_document_various_permissions_xml',
     );
 
-    parent::setUp();
-  }
+        parent::setUp();
+    }
 }

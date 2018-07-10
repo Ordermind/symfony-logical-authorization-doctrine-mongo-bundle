@@ -10,5 +10,4 @@ namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repos
  */
 class TestDocumentAbortSaveRepository extends \Doctrine\ODM\MongoDB\DocumentRepository
 {
-
 }

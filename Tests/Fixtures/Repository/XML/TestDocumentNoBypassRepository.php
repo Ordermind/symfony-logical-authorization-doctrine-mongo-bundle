@@ -10,7 +10,8 @@ namespace Ordermind\LogicalAuthorizationDoctrineMongoBundle\Tests\Fixtures\Repos
  */
 class TestDocumentNoBypassRepository extends \Doctrine\ODM\MongoDB\DocumentRepository
 {
-  public function customMethod() {
-    return $this->findAll();
-  }
+    public function customMethod()
+    {
+        return $this->findAll();
+    }
 }

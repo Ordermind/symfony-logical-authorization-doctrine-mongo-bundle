@@ -122,5 +122,3 @@ class TestDocumentAbortDelete
         return $this->field3;
     }
 }
-
-

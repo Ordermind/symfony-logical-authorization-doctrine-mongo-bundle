@@ -22,29 +22,29 @@ class DocumentDecorator implements DocumentDecoratorInterface
    */
     protected $dm;
 
-  /**
-   * @var Symfony\Component\EventDispatcher\EventDispatcherInterface
-   */
+    /**
+     * @var Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
     protected $dispatcher;
 
-  /**
-   * @var Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface
-   */
+    /**
+     * @var Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface
+     */
     protected $laModel;
 
-  /**
-   * @var object
-   */
+    /**
+     * @var object
+     */
     protected $document;
 
-  /**
-   * @internal
-   *
-   * @param Doctrine\Common\Persistence\ObjectManager                                        $dm         The document manager to use in this decorator
-   * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                       $dispatcher The event dispatcher to use in this decorator
-   * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel    LogicalAuthorizationModel service
-   * @param object                                                                           $document   The document to wrap in this decorator
-   */
+    /**
+     * @internal
+     *
+     * @param Doctrine\Common\Persistence\ObjectManager                                        $dm         The document manager to use in this decorator
+     * @param Symfony\Component\EventDispatcher\EventDispatcherInterface                       $dispatcher The event dispatcher to use in this decorator
+     * @param Ordermind\LogicalAuthorizationBundle\Services\LogicalAuthorizationModelInterface $laModel    LogicalAuthorizationModel service
+     * @param object                                                                           $document   The document to wrap in this decorator
+     */
     public function __construct(ObjectManager $dm, EventDispatcherInterface $dispatcher, LogicalAuthorizationModelInterface $laModel, $document)
     {
         $this->dm = $dm;
@@ -53,25 +53,25 @@ class DocumentDecorator implements DocumentDecoratorInterface
         $this->document = $document;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getModel()
     {
         return $this->getDocument();
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getDocument()
     {
         return $this->document;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setDocumentManager(ObjectManager $dm)
     {
         $this->dm = $dm;
@@ -79,25 +79,25 @@ class DocumentDecorator implements DocumentDecoratorInterface
         return $this;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getDocumentManager(): ObjectManager
     {
         return $this->dm;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getAvailableActions($user = null, array $documentActions = ['create', 'read', 'update', 'delete'], array $fieldActions = ['get', 'set']): array
     {
         return $this->laModel->getAvailableActions($this->getDocument(), $documentActions, $fieldActions, $user);
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function isNew(): bool
     {
         $dm = $this->getDocumentManager();
@@ -106,9 +106,9 @@ class DocumentDecorator implements DocumentDecoratorInterface
         return !$dm->contains($document);
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function save(bool $andFlush = true)
     {
         $document = $this->getDocument();
@@ -128,9 +128,9 @@ class DocumentDecorator implements DocumentDecoratorInterface
         return $this;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function delete(bool $andFlush = true)
     {
         $document = $this->getDocument();
@@ -150,17 +150,17 @@ class DocumentDecorator implements DocumentDecoratorInterface
         return $this;
     }
 
-  /**
-   * Catch-all for method calls on the document
-   *
-   * Traps all method calls on the document and fires the event 'logauth_doctrine_mongo.event.document_decorator.before_method_call' passing Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeMethodCallEvent.
-   * If the abort flag in the event is then found to be TRUE the call is never transmitted to the document and instead the method returns NULL.
-   *
-   * @param string $method    The method used for the call
-   * @param array  $arguments The arguments used for the call
-   *
-   * @return mixed|NULL
-   */
+    /**
+     * Catch-all for method calls on the document
+     *
+     * Traps all method calls on the document and fires the event 'logauth_doctrine_mongo.event.document_decorator.before_method_call' passing Ordermind\LogicalAuthorizationDoctrineMongoBundle\Event\DocumentDecoratorEvents\BeforeMethodCallEvent.
+     * If the abort flag in the event is then found to be TRUE the call is never transmitted to the document and instead the method returns NULL.
+     *
+     * @param string $method    The method used for the call
+     * @param array  $arguments The arguments used for the call
+     *
+     * @return mixed|NULL
+     */
     public function __call(string $method, array $arguments)
     {
         $dm = $this->getDocumentManager();

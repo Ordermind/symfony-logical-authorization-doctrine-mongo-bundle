@@ -20,56 +20,56 @@ class RepositoryDecoratorFactory implements RepositoryDecoratorFactoryInterface
    */
     protected $managerRegistry;
 
-  /**
-   * @var Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactoryInterface
-   */
+    /**
+     * @var Ordermind\LogicalAuthorizationDoctrineMongoBundle\Services\Factory\DocumentDecoratorFactoryInterface
+     */
     protected $documentDecoratorFactory;
 
-  /**
-   * @var Symfony\Component\EventDispatcher\EventDispatcherInterface
-   */
+    /**
+     * @var Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
     protected $dispatcher;
 
-  /**
-   * @var Ordermind\LogicalAuthorizationBundle\Services\HelperInterface
-   */
+    /**
+     * @var Ordermind\LogicalAuthorizationBundle\Services\HelperInterface
+     */
     protected $helper;
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setManagerRegistry(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setDocumentDecoratorFactory(DocumentDecoratorFactoryInterface $documentDecoratorFactory)
     {
         $this->documentDecoratorFactory = $documentDecoratorFactory;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setDispatcher(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function setHelper(HelperInterface $helper)
     {
         $this->helper = $helper;
     }
 
-  /**
-   * {@inheritdoc}
-   */
+    /**
+     * {@inheritdoc}
+     */
     public function getRepositoryDecorator(string $class): RepositoryDecoratorInterface
     {
         $dm = $this->managerRegistry->getManagerForClass($class);
