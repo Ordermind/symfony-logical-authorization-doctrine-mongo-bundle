@@ -3,12 +3,12 @@
     "name": "ordermind/logical-authorization-doctrine-mongo-bundle",
     "version": "0.3.11",
     "license": "MIT",
-    "description": "Doctrine MongoDB integration for LogicalAuthorization bundle",
+    "description": "Doctrine MongoDB integration for Logical Authorization Bundle",
     "keywords": ["doctrine", "odm", "mongodb", "logical-authorization"],
     "authors": [
         {
             "name": "Kristofer Tengström",
-            "email": "info@kristofer-tengstrom.se"
+            "email": "ordermind@gmail.com"
         }
     ],
     "autoload": {
