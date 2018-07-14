@@ -162,4 +162,28 @@ class DocumentDecoratorTest extends DecoratorBase
         $available_actions_class = $laModel->getAvailableActions(get_class($document), ['create', 'read', 'update', 'delete'], ['get', 'set'], 'anon.');
         $this->assertSame($available_actions_decorator, $available_actions_class);
     }
+
+    public function testCheckDocumentAccess()
+    {
+        $laModel = static::$container->get('test.logauth.service.logauth_model');
+        $repositoryDecorator = static::$container->get('repository.test_document');
+        $documentDecorator = $repositoryDecorator->create();
+        $document = $documentDecorator->getDocument();
+        $actions = ['create', 'read', 'update', 'delete'];
+        foreach($actions as $action) {
+          $this->assertSame($documentDecorator->checkDocumentAccess($action, 'anon.'), $laModel->checkModelAccess($document, $action, 'anon.'));
+        }
+    }
+
+    public function testCheckFieldAccess()
+    {
+        $laModel = static::$container->get('test.logauth.service.logauth_model');
+        $repositoryDecorator = static::$container->get('repository.test_document');
+        $documentDecorator = $repositoryDecorator->create();
+        $document = $documentDecorator->getDocument();
+        $actions = ['get', 'set'];
+        foreach($actions as $action) {
+          $this->assertSame($documentDecorator->checkFieldAccess('field1', $action, 'anon.'), $laModel->checkFieldAccess($document, 'field1', $action, 'anon.'));
+        }
+    }
 }

@@ -98,6 +98,22 @@ class DocumentDecorator implements DocumentDecoratorInterface
     /**
      * {@inheritdoc}
      */
+    public function checkDocumentAccess(string $action, $user = null): bool
+    {
+        return $this->laModel->checkModelAccess($this->getDocument(), $action, $user = null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function checkFieldAccess(string $fieldName, string $action, $user = null): bool
+    {
+        return $this->laModel->checkFieldAccess($this->getDocument(), $fieldName, $action, $user = null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isNew(): bool
     {
         $dm = $this->getDocumentManager();
