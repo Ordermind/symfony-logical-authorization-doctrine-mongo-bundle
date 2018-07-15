@@ -15,6 +15,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\FrameworkBundle\FrameworkBundle();
             $bundles[] = new Symfony\Bundle\MonologBundle\MonologBundle();
             $bundles[] = new Symfony\Bundle\SecurityBundle\SecurityBundle();
+            $bundles[] = new Symfony\Bundle\TwigBundle\TwigBundle();
             $bundles[] = new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle();
             $bundles[] = new Doctrine\Bundle\MongoDBBundle\DoctrineMongoDBBundle();
             $bundles[] = new Ordermind\LogicalAuthorizationBundle\OrdermindLogicalAuthorizationBundle();

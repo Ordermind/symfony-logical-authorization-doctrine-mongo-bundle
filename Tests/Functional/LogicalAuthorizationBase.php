@@ -25,6 +25,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase
     protected $testUserRepositoryDecorator;
     protected $testDocumentOperations;
     protected $client;
+    protected $twig;
 
     /**
      * This method is run before each public test method
@@ -39,6 +40,7 @@ abstract class LogicalAuthorizationBase extends WebTestCase
         $this->load_services['testDocumentRepositoryDecorator'] = 'repository.test_document';
         $this->load_services['testUserRepositoryDecorator'] = 'repository.test_user';
         $this->load_services['testDocumentOperations'] = 'test_document_operations';
+        $this->load_services['twig'] = 'twig';
         $container = $kernel->getContainer();
         foreach ($this->load_services as $property_name => $service_name) {
             $this->$property_name = $container->get($service_name);
@@ -152,15 +154,15 @@ abstract class LogicalAuthorizationBase extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
-     */
+//     /**
+//      * @expectedException Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException
+//      */
     public function testRouteLoadDocumentDisallow()
     {
         $testDocumentDecorator = $this->testDocumentRepositoryDecorator->create()->save();
         $this->sendRequestAs('GET', '/test/load-test-document/' . $testDocumentDecorator->getId(), [], static::$authenticated_user);
         $response = $this->client->getResponse();
-//     $this->assertEquals(403, $response->getStatusCode());
+        $this->assertEquals(403, $response->getStatusCode());
     }
 
     public function testRepositoryDecoratorCreateSetAuthor()
@@ -1141,5 +1143,35 @@ abstract class LogicalAuthorizationBase extends WebTestCase
       ],
     ];
         $this->assertSame($expected_actions, $actions);
+    }
+
+    public function testTwigCheckDocumentAccess()
+    {
+        $documentDecorator = $this->testDocumentRoleAuthorRepositoryDecorator->create();
+        $document = $documentDecorator->getDocument();
+        $function = $this->twig->getFunction('logauth_doctrine_mongo_check_document_access');
+        $this->assertTrue($function instanceof \Twig_SimpleFunction);
+        $callable = $function->getCallable();
+        $this->assertTrue($callable(get_class($document), 'create', static::$admin_user));
+        $this->assertTrue($callable(get_class($document), 'read', static::$admin_user));
+        $this->assertTrue($callable(get_class($document), 'update', static::$admin_user));
+        $this->assertTrue($callable(get_class($document), 'delete', static::$admin_user));
+        $this->assertFalse($callable(get_class($document), 'create', static::$authenticated_user));
+        $this->assertFalse($callable(get_class($document), 'read', static::$authenticated_user));
+        $this->assertFalse($callable(get_class($document), 'update', static::$authenticated_user));
+        $this->assertFalse($callable(get_class($document), 'delete', static::$authenticated_user));
+    }
+
+    public function testTwigCheckFieldAccess()
+    {
+        $documentDecorator = $this->testDocumentRoleAuthorRepositoryDecorator->create();
+        $document = $documentDecorator->getDocument();
+        $function = $this->twig->getFunction('logauth_doctrine_mongo_check_field_access');
+        $this->assertTrue($function instanceof \Twig_SimpleFunction);
+        $callable = $function->getCallable();
+        $this->assertTrue($callable(get_class($document), 'field1', 'set', static::$admin_user));
+        $this->assertTrue($callable(get_class($document), 'field1', 'get', static::$admin_user));
+        $this->assertFalse($callable(get_class($document), 'field1', 'set', static::$authenticated_user));
+        $this->assertFalse($callable(get_class($document), 'field1', 'get', static::$authenticated_user));
     }
 }
