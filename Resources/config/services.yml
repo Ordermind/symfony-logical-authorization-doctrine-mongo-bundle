@@ -39,8 +39,8 @@ services:
         public: false
 
     logauth_doctrine_mongo.twig.extension:
-      class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Twig\LogicalAuthorizationDoctrineMongoExtension
-      arguments: ['@logauth.service.logauth_model']
-      tags:
-        - {name: twig.extension}
-      public: false
+        class: Ordermind\LogicalAuthorizationDoctrineMongoBundle\Twig\LogicalAuthorizationDoctrineMongoExtension
+        arguments: ['@logauth.service.logauth_model']
+        tags:
+            - {name: twig.extension}
+        public: false
